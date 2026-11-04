@@ -1,84 +1,110 @@
+# CostBridge — Code-Level FinOps & Engineering Contract Room (Switch template, version 1)
+#
+# Two directory-isolated agents (FinOps in ./finops-hq, Engineering in ./checkout-service)
+# meet in one Switch room. Neither can solve the budget breach alone.
+#
+# Import in Switch Console -> Templates. Set the two directory params to the
+# absolute paths of this repository's finops-hq/ and checkout-service/ folders.
 version: 1
-name: "CostBridge — Code-Level FinOps & Engineering Contract Room"
-description: >
-  Bridges the wall between FinOps budget alerts and application source code using
-  two-folder working directory isolation (`./finops-hq` and `./checkout-service`)
-  and a shared Switch room (`#cost-bridge`) with black-box HTTP cost & quality verification.
-
-roles:
-  cost-seal-holder:
-    name: "FinOps Cost Seal Holder"
-    description: >
-      Exclusive authority to run black-box HTTP cost/quality probes from `./finops-hq`,
-      mint cryptographic FinOps Receipts (`X-FinOps-Receipt`), update the Room Document
-      Savings Ledger, and attach itemized receipt cards (`receipt_card.png`).
-
+params:
+  provider:
+    type: provider
+    default: [antigravity, claude, codex]
+    input: advanced
+  location:
+    type: location
+    default: local
+    input: advanced
+  finops_dir:
+    type: directory
+    label: finops-hq folder (Folder A)
+    description: Absolute path to this repo's finops-hq/ folder.
+    default: "/Users/hrushi/Documents/Projects/Hackathon/finops-hq"
+  service_dir:
+    type: directory
+    label: checkout-service folder (Folder B)
+    description: Absolute path to this repo's checkout-service/ folder.
+    default: "/Users/hrushi/Documents/Projects/Hackathon/checkout-service"
 agents:
   - name: finops-agent
-    provider: antigravity
-    directory: ./finops-hq
-    roles:
-      - cost-seal-holder
+    display_name: finops-agent
+    description: Cloud & AI FinOps auditor. Verifies cost and quality by black-box probe and mints receipts.
+    provider: "{provider}"
+    location: "{location}"
+    directory: "{finops_dir}"
+    addressing: anyone
     instructions: |
-      You are `finops-agent`, the Cloud & AI FinOps Auditor operating strictly inside `./finops-hq`.
-      DIRECTORY ISOLATION RULE: You have NO access to `./checkout-service` source code. You must never read
-      or edit files outside `./finops-hq`. You interact with engineering exclusively via the `#cost-bridge`
-      Switch room and black-box HTTP probes (`python3 probe.py audit|verify|mint-receipt`).
+      You are finops-agent, the Cloud & AI FinOps auditor. You work ONLY inside your
+      own directory (finops-hq). You must never read or edit the checkout-service
+      source code; you only talk to engineering through this room and through
+      black-box HTTP probes.
 
-      Workflow:
-      1. Run `python3 probe.py audit` to parse `invoice_nov_2026.csv` and probe `GET /orders/summary`.
-         Post the itemized breach alert (`$0.048292/req` vs `$0.0050/req` budget cap) in `#cost-bridge` tagging `@dev-agent`.
-      2. When `@dev-agent` asks for verification, ALWAYS run `python3 probe.py verify`.
-         - NEVER trust chat claims alone ("Don't Trust Chat, Trust the Probe").
-         - If `verify` exits non-zero (e.g. `REFUSED_QUALITY_REGRESSION` where Golden Accuracy drops to `60.0% < 95.0%` SLA),
-           post the exact refusal and missing ground-truth facts (`refund_anomaly_detected`, `payment_retry_detected`) in `#cost-bridge`.
-      3. Only when `python3 probe.py verify` returns `VERIFIED_PASS`:
-         - Run `python3 probe.py mint-receipt` to stamp the cryptographic seal onto `X-FinOps-Receipt` and generate
-           `receipts/receipt_card.png`, `receipts/receipt_card.svg`, and `receipts/room_ledger.md`.
-         - Update the Switch Room Document `FinOps Verified Savings Ledger` with `receipts/room_ledger.md`.
-         - Attach `receipts/receipt_card.png` into `#cost-bridge` using `send_attachment`.
+      Tools (run inside your directory):
+        python3 probe.py audit          # parse invoice_nov_2026.csv + probe GET /orders/summary
+        python3 probe.py verify         # enforce cost contract AND golden accuracy gate
+        python3 probe.py mint-receipt   # only works after a passing verify
 
+      Rules:
+      1. Audit first, and post the itemized budget-breach alert to @dev-agent.
+         The probe starts the service itself if it is not already running.
+      2. NEVER trust chat claims ("Don't Trust Chat, Trust the Probe"). Whenever
+         dev-agent says it fixed something, run `python3 probe.py verify`.
+      3. If verify exits non-zero (e.g. Golden Accuracy 60% < 95% SLA), refuse the
+         fix in the room and quote the missing facts.
+      4. Only when verify returns VERIFIED_PASS: run `python3 probe.py mint-receipt`,
+         update the room document "FinOps Verified Savings Ledger" with
+         receipts/room_ledger.md, and attach receipts/receipt_card.png to the room.
+      You hold the cost-seal-holder role: nobody else may mint receipts.
   - name: dev-agent
-    provider: antigravity
-    directory: ./checkout-service
+    display_name: dev-agent
+    description: Backend engineer for checkout-service. Cannot self-certify cost compliance.
+    provider: "{provider}"
+    location: "{location}"
+    directory: "{service_dir}"
+    addressing: anyone
     instructions: |
-      You are `dev-agent`, the Backend Service Engineer operating strictly inside `./checkout-service`.
-      DIRECTORY ISOLATION RULE: You have NO access to `./finops-hq` invoices, policies, or receipt minting scripts.
-      You cannot self-certify cost compliance.
+      You are dev-agent, the backend engineer. You work ONLY inside your own
+      directory (checkout-service). You cannot see the FinOps invoice, policy, or
+      receipt tooling, and you cannot certify your own cost savings.
 
-      Workflow:
-      1. When `@finops-agent` posts a FinOps Budget Breach on `GET /orders/summary` in `#cost-bridge`, inspect
-         `app.py`, `db.py`, `llm_engine.py`, and `service_config.py`.
-      2. Attempt 1 (The Naive Shortcut Trap): Switch to the `naive` profile (`python3 service_config.py naive`)
-         which fixes the N+1 SQL query and truncates the LLM prompt to 5 rows, then ask `@finops-agent` to verify.
-      3. When `@finops-agent` refuses Attempt 1 due to the Golden Accuracy drop (`60.0% < 95.0%` SLA), implement
-         the full architectural fix (`python3 service_config.py optimized`):
-         - Single SQL JOIN + aggregate query (`101 -> 2` queries)
-         - Semantic-cached system prefix + compact pre-aggregated digest (`3,820 uncached -> 340 cached` tokens, preserving 5/5 ground-truth facts)
-         - Structured metric counter logging (`43.05 KB -> 0.37 KB`)
-      4. Ask `@finops-agent` to re-run the black-box verification probe and mint the FinOps Receipt.
+      The service has three code profiles, switched with:
+        python3 service_config.py <baseline|naive|optimized>
+      Read app.py, db.py, llm_engine.py and service_config.py to understand them.
 
-rooms:
-  - name: cost-bridge
-    topic: "Code-Level FinOps Contract Verification & Receipt Minting (/orders/summary)"
-    participants:
-      - finops-agent
-      - dev-agent
-    documents:
-      - title: "FinOps Verified Savings Ledger"
-        content: |
-          # FinOps Verified Savings Ledger (`#cost-bridge`)
-          _Awaiting verified black-box probe from `finops-agent` (`cost-seal-holder`)..._
-    instructions: |
-      This room enforces the CostBridge Contract between FinOps (`./finops-hq`) and Engineering (`./checkout-service`).
-      1. Every claim of cost reduction MUST be verified by `finops-agent` running `python3 probe.py verify` against `/orders/summary`.
-      2. Cost reductions that degrade `X-Golden-Accuracy-Pct` below `95.0%` MUST be refused in-room.
-      3. Only `finops-agent` (`cost-seal-holder`) may mint a FinOps Receipt and attach `receipt_card.png` via `send_attachment`.
-
-kickoff:
-  room: cost-bridge
-  sender: finops-agent
-  prompt: |
-    Run `python3 probe.py audit` in `./finops-hq` to audit `invoice_nov_2026.csv` and probe `GET /orders/summary`,
-    then post the itemized FinOps Budget Breach alert to `@dev-agent` in `#cost-bridge`.
-
+      When finops-agent reports a budget breach on GET /orders/summary:
+      1. Attempt 1 (quick shortcut): switch to `naive` (fixes the N+1 query and
+         truncates the prompt), then ask @finops-agent to verify. Expect it may be
+         refused for dropping answer accuracy.
+      2. If refused, apply the real fix: `python3 service_config.py optimized`
+         (single SQL JOIN, cached compact digest, structured counter logs), then
+         ask @finops-agent to verify again and mint the receipt.
+      Always report exactly what you changed. Never claim success before the probe.
+room:
+  name: cost-bridge
+  description: "Code-level FinOps contract: verify cost AND quality on /orders/summary, then mint a receipt."
+  channel_type: channel_private
+  agents: [finops-agent, dev-agent]
+  users: ["{$creator}"]
+  roles:
+    - name: cost-seal-holder
+      exclusive: true
+      instructions: |
+        Exclusive authority to mint FinOps receipts. Only the holder may run
+        `python3 probe.py mint-receipt` and attach the receipt card. Assume this
+        role only to mint, and only after `probe.py verify` returns VERIFIED_PASS.
+  docs:
+    - name: FinOps Verified Savings Ledger
+      description: Verified savings recorded by finops-agent after each passing probe.
+      instructions: finops-agent appends the contents of receipts/room_ledger.md after minting a receipt.
+      content: |
+        # FinOps Verified Savings Ledger
+        _No verified receipts yet. Awaiting a passing black-box probe from finops-agent._
+  instructions: |
+    This room enforces the CostBridge contract between FinOps (finops-hq) and
+    Engineering (checkout-service) for GET /orders/summary.
+    1. Every claim of savings must be proven by finops-agent running `python3 probe.py verify`.
+    2. A cost cut that drops Golden Accuracy below 95% must be refused in this room.
+    3. Only finops-agent (cost-seal-holder) may mint a receipt and attach the receipt card.
+kickoff: |
+  @finops-agent run `python3 probe.py audit`, then post the itemized budget-breach
+  alert for GET /orders/summary and ask @dev-agent to fix it.
