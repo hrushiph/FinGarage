@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>CostBridge — Code-Level FinOps &amp; Engineering Contract Room on Switch</title>
+  <title>FinGarage — Code-Level FinOps &amp; Engineering Contract Room on Switch</title>
   <style>
     :root {
       color-scheme: light dark;
@@ -486,7 +486,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
-        <span>COSTBRIDGE // #cost-bridge</span>
+        <span>FINGARAGE // #fin-garage</span>
         <span class="badge">provider: antigravity</span>
       </div>
       <nav class="top-nav" aria-label="Primary sections">
@@ -506,7 +506,7 @@
       <p class="lead">
         FinOps teams see the <strong>$14,487/mo invoice spike</strong> in <code>./finops-hq</code> but cannot touch application code.
         Backend engineers see <code>200 OK</code> in <code>./checkout-service</code> but have zero visibility into per-request token, SQL IOPS, or log ingestion costs.
-        <strong>CostBridge</strong> connects two directory-isolated Antigravity agents in a Switch room (<code>#cost-bridge</code>) with live <code>X-Unit-Cost-USD</code> HTTP probes and a 5-fact Golden Quality Gate.
+        <strong>FinGarage</strong> connects two directory-isolated Antigravity agents in a Switch room (<code>#fin-garage</code>) with live <code>X-Unit-Cost-USD</code> HTTP probes and a 5-fact Golden Quality Gate.
       </p>
 
       <div class="kpi-grid">
@@ -537,7 +537,7 @@
       </p>
 
       <div class="switch-toggle-bar" role="group" aria-label="Switch coordination mode">
-        <button type="button" id="switchOnBtn" aria-pressed="true">Switch Room ON (#cost-bridge Active)</button>
+        <button type="button" id="switchOnBtn" aria-pressed="true">Switch Room ON (#fin-garage Active)</button>
         <button type="button" id="switchOffBtn" class="off-btn" aria-pressed="false">Switch Room OFF (Isolated Agents Fail)</button>
       </div>
 
@@ -546,11 +546,11 @@
           <h3>Folder A: <code>./finops-hq</code> (finops-agent)</h3>
           <p id="folderAText">
             Holds <code>invoice_nov_2026.csv</code>, <code>budget_policy.yaml</code>, and black-box verifier <code>probe.py</code>.
-            Posts itemized HTTP header breach to <code>#cost-bridge</code> and holds exclusive <code>cost-seal-holder</code> role.
+            Posts itemized HTTP header breach to <code>#fin-garage</code> and holds exclusive <code>cost-seal-holder</code> role.
           </p>
         </div>
         <div class="folder-box">
-          <h3 id="bridgeBoxTitle">Switch Room: <code>#cost-bridge</code></h3>
+          <h3 id="bridgeBoxTitle">Switch Room: <code>#fin-garage</code></h3>
           <p id="bridgeBoxText">
             Bridges Finance &amp; Engineering across folders: routes the breach alert, refuses Attempt 1 when Golden Accuracy drops to <code>60.0%</code>, and attaches <code>receipt_card.png</code> via <code>send_attachment</code>.
           </p>
@@ -568,10 +568,10 @@
     <section id="simulator" class="showcase-section">
       <h2>2. Interactive 4-Beat Room &amp; HTTP Header Simulator</h2>
       <p class="section-subtitle">
-        Step through all 4 collaboration beats in <code>#cost-bridge</code> — or test the <strong>"Don't Trust Chat, Trust the Probe"</strong> guardrail by trying to force-mint a receipt before verification passes.
+        Step through all 4 collaboration beats in <code>#fin-garage</code> — or test the <strong>"Don't Trust Chat, Trust the Probe"</strong> guardrail by trying to force-mint a receipt before verification passes.
       </p>
 
-      <div class="beat-tabs" role="tablist" aria-label="CostBridge Collaboration Beats">
+      <div class="beat-tabs" role="tablist" aria-label="FinGarage Collaboration Beats">
         <button type="button" role="tab" data-beat="0" aria-selected="true">Beat 1: Baseline Breach ($0.048292)</button>
         <button type="button" role="tab" data-beat="1" aria-selected="false">Beat 2: Naive Fix Refused (60% Accuracy)</button>
         <button type="button" role="tab" data-beat="2" aria-selected="false">Beat 3: Smart Fix Verified ($0.003622)</button>
@@ -586,8 +586,8 @@
             <h3 style="margin:0;font-size:1.05rem;" id="beatTitle">Beat 1: Baseline Invoice Audit &amp; Breach Alert</h3>
             <span class="badge badge-danger" id="beatBadge">UNVERIFIED-BUDGET-BREACH</span>
           </div>
-          <pre tabindex="0"><code id="roomChatOutput">[@finops-agent -> #cost-bridge]
-🚨 [FINOPS BUDGET BREACH — #cost-bridge] @dev-agent
+          <pre tabindex="0"><code id="roomChatOutput">[@finops-agent -> #fin-garage]
+🚨 [FINOPS BUDGET BREACH — #fin-garage] @dev-agent
 - Endpoint: GET /orders/summary (checkout-service)
 - Live HTTP Header: X-Unit-Cost-USD: $0.048292 (Cap: $0.0050 — 9.66x over cap)
 - Monthly Run-Rate: $14,487.60/mo (Cap: $1,500.00/mo)
@@ -640,7 +640,7 @@ X-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH</code></pre>
 
       <div tabindex="0" role="region" aria-labelledby="telemetryTableCaption" class="table-wrapper">
         <table class="finops-table">
-          <caption id="telemetryTableCaption">CostBridge Before vs. Naive Shortcut vs. Verified Fix Comparison</caption>
+          <caption id="telemetryTableCaption">FinGarage Before vs. Naive Shortcut vs. Verified Fix Comparison</caption>
           <thead>
             <tr>
               <th scope="col">Cost &amp; Quality Driver</th>
@@ -700,13 +700,13 @@ X-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH</code></pre>
 
     <!-- SECTION 4: Embedded Verified FinOps Receipt Card -->
     <section id="receipt-card" class="showcase-section">
-      <h2>4. Minted FinOps Store Receipt Card (Attached to <code>#cost-bridge</code> via <code>send_attachment</code>)</h2>
+      <h2>4. Minted FinOps Store Receipt Card (Attached to <code>#fin-garage</code> via <code>send_attachment</code>)</h2>
       <p class="section-subtitle">
         Generated automatically by <code>finops-hq/render_receipt.py</code> only after <code>probe.py verify</code> passes both cost and quality gates.
       </p>
 
       <div class="receipt-svg-wrap">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 540" width="680" height="540" role="img" aria-label="CostBridge Verified FinOps Receipt Card">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 540" width="680" height="540" role="img" aria-label="FinGarage Verified FinOps Receipt Card">
           <defs>
             <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#0d1322"/>
@@ -719,10 +719,10 @@ X-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH</code></pre>
           </defs>
           <rect x="8" y="8" width="664" height="524" rx="16" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="2"/>
           <rect x="8" y="8" width="664" height="8" rx="4" fill="url(#accentGrad)"/>
-          <text x="36" y="48" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="18" font-weight="700">COSTBRIDGE // VERIFIED FINOPS RECEIPT</text>
+          <text x="36" y="48" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="18" font-weight="700">FINGARAGE // VERIFIED FINOPS RECEIPT</text>
           <rect x="496" y="28" width="144" height="28" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
           <text x="568" y="47" text-anchor="middle" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">SEAL: #12c36d84</text>
-          <text x="36" y="74" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">Room: #cost-bridge   |   Endpoint: /orders/summary   |   Service: checkout-service</text>
+          <text x="36" y="74" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">Room: #fin-garage   |   Endpoint: /orders/summary   |   Service: checkout-service</text>
           <line x1="36" y1="90" x2="644" y2="90" stroke="#334155" stroke-dasharray="6,4" stroke-width="1.5"/>
           <text x="36" y="116" fill="#64748b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">ITEMIZED DRIVER</text>
           <text x="240" y="116" fill="#64748b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">BEFORE (BREACH)</text>
@@ -779,7 +779,7 @@ X-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH</code></pre>
         badge: "UNVERIFIED-BUDGET-BREACH",
         badgeClass: "badge badge-danger",
         unitCost: 0.048292,
-        chat: `[@finops-agent -> #cost-bridge]\n🚨 [FINOPS BUDGET BREACH — #cost-bridge] @dev-agent\n- Endpoint: GET /orders/summary (checkout-service)\n- Live HTTP Header: X-Unit-Cost-USD: $0.048292 (Cap: $0.0050 — 9.66x over cap)\n- Monthly Run-Rate: $14,487.60/mo (Cap: $1,500.00/mo)\n- Itemized Root Causes:\n  1. X-SQL-Queries: 101 (N+1 customer hydration loop)\n  2. X-LLM-Tokens: 3820 uncached ($0.034380/req)\n  3. X-Log-Bytes: 44090 (43.06 KB per-row debug dump)`,
+        chat: `[@finops-agent -> #fin-garage]\n🚨 [FINOPS BUDGET BREACH — #fin-garage] @dev-agent\n- Endpoint: GET /orders/summary (checkout-service)\n- Live HTTP Header: X-Unit-Cost-USD: $0.048292 (Cap: $0.0050 — 9.66x over cap)\n- Monthly Run-Rate: $14,487.60/mo (Cap: $1,500.00/mo)\n- Itemized Root Causes:\n  1. X-SQL-Queries: 101 (N+1 customer hydration loop)\n  2. X-LLM-Tokens: 3820 uncached ($0.034380/req)\n  3. X-Log-Bytes: 44090 (43.06 KB per-row debug dump)`,
         headers: `HTTP/1.1 200 OK\nContent-Type: application/json\nX-Unit-Cost-USD: 0.048292\nX-Cost-Breakdown: sql=101($0.0091),llm_tokens=3820($0.0344),logs_kb=43.1($0.0048)\nX-SQL-Queries: 101\nX-LLM-Tokens: 3820\nX-LLM-Cache-Hit: false\nX-Log-Bytes: 44090\nX-Latency-Ms: 1441\nX-Golden-Accuracy-Pct: 100.0\nX-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH`,
         facts: [
           ["order_volume_exact (100 orders)", true],
@@ -794,7 +794,7 @@ X-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH</code></pre>
         badge: "REFUSED: 60.0% ACCURACY",
         badgeClass: "badge badge-danger",
         unitCost: 0.002742,
-        chat: `[@dev-agent -> #cost-bridge]\nApplied Attempt 1 ('naive' profile): truncated prompt to 5 rows. Unit cost is now $0.002742. @finops-agent please verify!\n\n[@finops-agent -> #cost-bridge]\n🛑 [COSTBRIDGE VERIFICATION REFUSED — QUALITY GATE BREACH] @dev-agent\n- Cost Check: X-Unit-Cost-USD: $0.002742 (Passed < $0.0050)\n- Quality Check: X-Golden-Accuracy-Pct: 60.0% (FAILED minimum 95.0% SLA!)\n- Missing Ground-Truth Facts: refund_anomaly_detected, payment_retry_detected\n- Diagnosis: Prompt truncation dropped tail anomalies. Use a compact pre-aggregated cached digest instead.`,
+        chat: `[@dev-agent -> #fin-garage]\nApplied Attempt 1 ('naive' profile): truncated prompt to 5 rows. Unit cost is now $0.002742. @finops-agent please verify!\n\n[@finops-agent -> #fin-garage]\n🛑 [FINGARAGE VERIFICATION REFUSED — QUALITY GATE BREACH] @dev-agent\n- Cost Check: X-Unit-Cost-USD: $0.002742 (Passed < $0.0050)\n- Quality Check: X-Golden-Accuracy-Pct: 60.0% (FAILED minimum 95.0% SLA!)\n- Missing Ground-Truth Facts: refund_anomaly_detected, payment_retry_detected\n- Diagnosis: Prompt truncation dropped tail anomalies. Use a compact pre-aggregated cached digest instead.`,
         headers: `HTTP/1.1 200 OK\nContent-Type: application/json\nX-Unit-Cost-USD: 0.002742\nX-Cost-Breakdown: sql=2($0.0002),llm_tokens=280($0.0025),logs_kb=0.4($0.0000)\nX-SQL-Queries: 2\nX-LLM-Tokens: 280\nX-LLM-Cache-Hit: false\nX-Log-Bytes: 383\nX-Latency-Ms: 76\nX-Golden-Accuracy-Pct: 60.0\nX-FinOps-Receipt: UNVERIFIED-QUALITY-BREACH`,
         facts: [
           ["order_volume_exact (100 orders)", true],
@@ -809,7 +809,7 @@ X-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH</code></pre>
         badge: "VERIFIED_PASS (100% SLA)",
         badgeClass: "badge",
         unitCost: 0.003622,
-        chat: `[@dev-agent -> #cost-bridge]\nRefactored to 'optimized' profile: 2-query SQL JOIN + semantic cached digest (340 tokens) + structured counter logs.\n\n[@finops-agent -> #cost-bridge]\n✅ [COSTBRIDGE VERIFICATION PASSED — SEAL #12c36d84] @dev-agent\n- Live HTTP Header: X-Unit-Cost-USD: $0.003622 (-92.5% vs baseline)\n- SQL Queries: 2 (-98.0%) | LLM Tokens: 340 cached (-90.1%) | Logs: 0.37 KB (-99.1%)\n- Golden Accuracy Gate: 100.0% (5/5 ground-truth facts preserved)\n- Latency Speedup: 56 ms (25.7x faster than 1,441 ms baseline)`,
+        chat: `[@dev-agent -> #fin-garage]\nRefactored to 'optimized' profile: 2-query SQL JOIN + semantic cached digest (340 tokens) + structured counter logs.\n\n[@finops-agent -> #fin-garage]\n✅ [FINGARAGE VERIFICATION PASSED — SEAL #12c36d84] @dev-agent\n- Live HTTP Header: X-Unit-Cost-USD: $0.003622 (-92.5% vs baseline)\n- SQL Queries: 2 (-98.0%) | LLM Tokens: 340 cached (-90.1%) | Logs: 0.37 KB (-99.1%)\n- Golden Accuracy Gate: 100.0% (5/5 ground-truth facts preserved)\n- Latency Speedup: 56 ms (25.7x faster than 1,441 ms baseline)`,
         headers: `HTTP/1.1 200 OK\nContent-Type: application/json\nX-Unit-Cost-USD: 0.003622\nX-Cost-Breakdown: sql=2($0.0002),llm_tokens=340_cached($0.0034),logs_kb=0.4($0.0000)\nX-SQL-Queries: 2\nX-LLM-Tokens: 340\nX-LLM-Cache-Hit: true\nX-Log-Bytes: 381\nX-Latency-Ms: 56\nX-Golden-Accuracy-Pct: 100.0\nX-FinOps-Receipt: PENDING-SEAL-12c36d84`,
         facts: [
           ["order_volume_exact (100 orders)", true],
@@ -824,7 +824,7 @@ X-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH</code></pre>
         badge: "VERIFIED-12c36d84 (-92.5%)",
         badgeClass: "badge",
         unitCost: 0.003622,
-        chat: `[@finops-agent (cost-seal-holder) -> #cost-bridge]\n🏆 Minted FinOps Receipt: CB-2026-11-12C36D84 (seal=12c36d84)\n- Updated Room Document: "FinOps Verified Savings Ledger"\n- Attached Visual Receipt Card: finops-hq/receipts/receipt_card.png via send_attachment\n- Stamped Live HTTP Header: X-FinOps-Receipt: VERIFIED-12c36d84 (-92.5%)\n- Verified Annual Run-Rate Savings: $160,812.00 / year`,
+        chat: `[@finops-agent (cost-seal-holder) -> #fin-garage]\n🏆 Minted FinOps Receipt: FG-2026-11-12C36D84 (seal=12c36d84)\n- Updated Room Document: "FinOps Verified Savings Ledger"\n- Attached Visual Receipt Card: finops-hq/receipts/receipt_card.png via send_attachment\n- Stamped Live HTTP Header: X-FinOps-Receipt: VERIFIED-12c36d84 (-92.5%)\n- Verified Annual Run-Rate Savings: $160,812.00 / year`,
         headers: `HTTP/1.1 200 OK\nContent-Type: application/json\nX-Unit-Cost-USD: 0.003622\nX-Cost-Breakdown: sql=2($0.0002),llm_tokens=340_cached($0.0034),logs_kb=0.4($0.0000)\nX-SQL-Queries: 2\nX-LLM-Tokens: 340\nX-LLM-Cache-Hit: true\nX-Log-Bytes: 381\nX-Latency-Ms: 56\nX-Golden-Accuracy-Pct: 100.0\nX-FinOps-Receipt: VERIFIED-12c36d84 (-92.5%)`,
         facts: [
           ["order_volume_exact (100 orders)", true],
@@ -906,8 +906,8 @@ X-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH</code></pre>
       switchOnBtn.setAttribute("aria-pressed", "true");
       switchOffBtn.setAttribute("aria-pressed", "false");
       document.getElementById("folderAText").innerHTML =
-        "Holds <code>invoice_nov_2026.csv</code>, <code>budget_policy.yaml</code>, and black-box verifier <code>probe.py</code>. Posts itemized HTTP header breach to <code>#cost-bridge</code> and holds exclusive <code>cost-seal-holder</code> role.";
-      document.getElementById("bridgeBoxTitle").innerHTML = "Switch Room: <code>#cost-bridge</code> (ACTIVE)";
+        "Holds <code>invoice_nov_2026.csv</code>, <code>budget_policy.yaml</code>, and black-box verifier <code>probe.py</code>. Posts itemized HTTP header breach to <code>#fin-garage</code> and holds exclusive <code>cost-seal-holder</code> role.";
+      document.getElementById("bridgeBoxTitle").innerHTML = "Switch Room: <code>#fin-garage</code> (ACTIVE)";
       document.getElementById("bridgeBoxText").innerHTML =
         "Bridges Finance &amp; Engineering across folders: routes the breach alert, refuses Attempt 1 when Golden Accuracy drops to <code>60.0%</code>, and attaches <code>receipt_card.png</code> via <code>send_attachment</code>.";
       document.getElementById("folderBText").innerHTML =

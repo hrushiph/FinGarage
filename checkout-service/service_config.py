@@ -41,7 +41,7 @@ PROFILES: dict[str, dict[str, str]] = {
 
 def get_active_config() -> dict[str, Any]:
     """Return the active code-level strategy configuration."""
-    env_mode = os.environ.get("COSTBRIDGE_MODE")
+    env_mode = os.environ.get("FINGARAGE_MODE")
     if env_mode and env_mode in PROFILES:
         return dict(PROFILES[env_mode])
 

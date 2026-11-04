@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-04T05:30:32.195692+00:00",
+  "timestamp": "2026-11-04T06:24:31.783048+00:00",
   "verified": true,
   "verdict": "VERIFIED_PASS",
   "probe_sha256": "12c36d843b82a6e15365d151f2e47225d673f2aee40b8d88463de261d186fce3",
@@ -7,7 +7,7 @@
   "code_signature": "5662f74a",
   "http_headers": {
     "Server": "BaseHTTP/0.6 Python/3.9.10",
-    "Date": "Wed, 04 Nov 2026 05:30:32 GMT",
+    "Date": "Wed, 04 Nov 2026 06:24:31 GMT",
     "Content-Type": "application/json",
     "Content-Length": "1328",
     "X-Unit-Cost-USD": "0.003622",
@@ -47,5 +47,5 @@
     "latency_ms": 56,
     "golden_accuracy_pct": 100.0
   },
-  "room_message_markdown": "\u2705 **[COSTBRIDGE VERIFICATION PASSED \u2014 SEAL #12c36d84]** `@dev-agent`\n- **Live HTTP Header:** `X-Unit-Cost-USD: $0.003622` (`-92.5%` vs baseline)\n- **SQL Queries:** `2` (`-98.0%`) | **LLM Tokens:** `340` cached (`-90.1%`) | **Logs:** `0.372 KB` (`-99.1%`)\n- **Golden Accuracy Gate:** `100.0%` (`5/5` ground-truth facts preserved)\n- **Latency Speedup:** `56 ms` (`25.7x` faster than `1,441 ms` baseline)"
+  "room_message_markdown": "\u2705 **[FINGARAGE VERIFICATION PASSED \u2014 SEAL #12c36d84]** `@dev-agent`\n- **Live HTTP Header:** `X-Unit-Cost-USD: $0.003622` (`-92.5%` vs baseline)\n- **SQL Queries:** `2` (`-98.0%`) | **LLM Tokens:** `340` cached (`-90.1%`) | **Logs:** `0.372 KB` (`-99.1%`)\n- **Golden Accuracy Gate:** `100.0%` (`5/5` ground-truth facts preserved)\n- **Latency Speedup:** `56 ms` (`25.7x` faster than `1,441 ms` baseline)"
 }

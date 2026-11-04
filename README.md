@@ -1,8 +1,8 @@
-# CostBridge — Code-Level FinOps & Engineering Contract Room on Switch
+# FinGarage — Code-Level FinOps & Engineering Contract Room on Switch
 
 > **Flip the Switch Hackathon Submission**
 > **Primary Track:** Cross-Role & Cross-Department Collaboration (Finance / FinOps $\leftrightarrow$ Backend Engineering)
-> **Agent Provider:** Google Antigravity (`provider: antigravity`) via Switch Console (`costbridge.template.yaml`)
+> **Agent Provider:** Google Antigravity (`provider: antigravity`) via Switch Console (`fingarage.template.yaml`)
 > **Repository:** [https://github.com/hrushiph/FinGarage](https://github.com/hrushiph/FinGarage)
 > **Interactive Live Showcase:** [https://hrushiph.github.io/FinGarage/](https://hrushiph.github.io/FinGarage/) ([`docs/index.html`](docs/index.html)) | **Visual Receipt Card:** [`finops-hq/receipts/receipt_card.svg`](finops-hq/receipts/receipt_card.svg)
 
@@ -17,14 +17,14 @@ In every modern cloud & AI engineering organization, **FinOps** and **Applicatio
 
 ---
 
-## 2. The Solution: `CostBridge` (`#cost-bridge` Switch Room)
+## 2. The Solution: `FinGarage` (`#fin-garage` Switch Room)
 
-**CostBridge** connects two working-directory-isolated Antigravity agents inside a shared Switch room (`#cost-bridge`):
+**FinGarage** connects two working-directory-isolated Antigravity agents inside a shared Switch room (`#fin-garage`):
 
 | Agent | Switch Role | Isolated Working Directory | Exclusive Capabilities |Why It Fails If Switch Is Turned Off ("Switch-Off Test") |
 | :--- | :--- | :--- | :--- | :--- |
 | **`finops-agent`** | `cost-seal-holder` | `./finops-hq` | Parses `invoice_nov_2026.csv`, enforces `budget_policy.yaml`, runs black-box HTTP probes (`probe.py`), mints cryptographic receipts (`receipt_card.png`) | Sees the `$14,487.60/mo` spend breach, but **cannot read or edit** `./checkout-service` source code to fix the N+1 SQL queries or LLM prompt bloat. |
-| **`dev-agent`** | Participant | `./checkout-service` | Owns `app.py`, `db.py`, `llm_engine.py`, and `service_config.py` | Sees `200 OK` locally. Without `finops-agent`'s black-box quality & cost probe in `#cost-bridge`, ships the **naive prompt-truncation shortcut** that drops accuracy from `100%` to `60%`. |
+| **`dev-agent`** | Participant | `./checkout-service` | Owns `app.py`, `db.py`, `llm_engine.py`, and `service_config.py` | Sees `200 OK` locally. Without `finops-agent`'s black-box quality & cost probe in `#fin-garage`, ships the **naive prompt-truncation shortcut** that drops accuracy from `100%` to `60%`. |
 
 ---
 
@@ -45,12 +45,12 @@ In every modern cloud & AI engineering organization, **FinOps** and **Applicatio
    X-FinOps-Receipt: VERIFIED-12c36d84 (-92.5%)
    ```
 2. **The "Quality-Drop Trap" (Live In-Room Refusal):**
-   - **Attempt 1 (`naive` profile):** `dev-agent` cuts cost to `$0.002742/req` by truncating the LLM prompt to 5 rows. `finops-agent` probes the endpoint, detects that `X-Golden-Accuracy-Pct` dropped from `100.0%` to **`60.0%`** (missing `refund_anomaly_detected` and `payment_retry_detected`), and **refuses the fix live in `#cost-bridge`**.
+   - **Attempt 1 (`naive` profile):** `dev-agent` cuts cost to `$0.002742/req` by truncating the LLM prompt to 5 rows. `finops-agent` probes the endpoint, detects that `X-Golden-Accuracy-Pct` dropped from `100.0%` to **`60.0%`** (missing `refund_anomaly_detected` and `payment_retry_detected`), and **refuses the fix live in `#fin-garage`**.
    - **Attempt 2 (`optimized` profile):** `dev-agent` replaces the N+1 SQL loop with a 2-query `JOIN`, replaces the 3,820-token raw dump with a 340-token semantic-cached digest, and replaces per-row debug logs with a structured counter — achieving **`$0.003622/req` (`-92.5%`)**, **`56ms` latency (`25.7x` faster)**, and **`100.0%` Golden Accuracy**.
 3. **"Don't Trust Chat, Trust the Probe" Guardrail:**
    `finops-hq/probe.py mint-receipt` raises a hard `PermissionError` if called before a cryptographically hashed HTTP probe (`receipts/latest_probe.json`) passes both the Cost Contract (`<= $0.0050/req`) and Golden Accuracy Gate (`>= 95.0%`).
 4. **Visual Itemized FinOps Store Receipt Card (`send_attachment`):**
-   Once verified, `finops-agent` generates [`finops-hq/receipts/receipt_card.png`](finops-hq/receipts/receipt_card.png) and [`finops-hq/receipts/receipt_card.svg`](finops-hq/receipts/receipt_card.svg) and attaches the receipt card directly into the `#cost-bridge` Switch room.
+   Once verified, `finops-agent` generates [`finops-hq/receipts/receipt_card.png`](finops-hq/receipts/receipt_card.png) and [`finops-hq/receipts/receipt_card.svg`](finops-hq/receipts/receipt_card.svg) and attaches the receipt card directly into the `#fin-garage` Switch room.
 5. **Interactive Judge Showcase (`docs/index.html`):**
    Open [`docs/index.html`](docs/index.html) in any browser to toggle **Switch ON vs. Switch OFF**, step through the **4-Beat Room Simulator**, test the **Guardrail Block**, and adjust the **Monthly Traffic Scale Calculator**.
 
@@ -75,7 +75,7 @@ In every modern cloud & AI engineering organization, **FinOps** and **Applicatio
 Requires only Python 3.9+ (with `pytest`, `PyYAML`, and `Pillow`).
 
 ```bash
-# 1. Run the automated 4-Beat #cost-bridge Switch Room replay
+# 1. Run the automated 4-Beat #fin-garage Switch Room replay
 make demo-replay
 
 # 2. Run the full pytest verification suite across both isolated folders
@@ -112,10 +112,10 @@ curl -i http://127.0.0.1:8090/orders/summary
    ```bash
    antigravity-acp --login
    ```
-2. Import [`costbridge.template.yaml`](costbridge.template.yaml) in **Switch Console**:
+2. Import [`fingarage.template.yaml`](fingarage.template.yaml) in **Switch Console**:
    - Spawns `finops-agent` (`provider: antigravity`, `directory: ./finops-hq`, role: `cost-seal-holder`)
    - Spawns `dev-agent` (`provider: antigravity`, `directory: ./checkout-service`)
-   - Creates the `#cost-bridge` room with the `FinOps Verified Savings Ledger` Room Document and triggers the kickoff audit automatically.
+   - Creates the `#fin-garage` room with the `FinOps Verified Savings Ledger` Room Document and triggers the kickoff audit automatically.
 
 ---
 
@@ -123,7 +123,7 @@ curl -i http://127.0.0.1:8090/orders/summary
 
 ```text
 .
-├── costbridge.template.yaml       # Switch Console template (provider: antigravity, 2 isolated folders)
+├── fingarage.template.yaml       # Switch Console template (provider: antigravity, 2 isolated folders)
 ├── Makefile                       # 1-command test & demo replay targets
 ├── scripts/
 │   └── demo_replay.py             # Automated 4-beat end-to-end collaboration replay

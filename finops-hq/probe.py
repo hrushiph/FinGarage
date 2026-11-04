@@ -1,5 +1,5 @@
 """
-CostBridge FinOps Black-Box Probe, Quality Gate Enforcer & Receipt Minting CLI.
+FinGarage FinOps Black-Box Probe, Quality Gate Enforcer & Receipt Minting CLI.
 
 Directory Isolation: Lives exclusively in `./finops-hq` (Folder A).
 Never imports source code from `./checkout-service` (Folder B); interacts strictly
@@ -180,7 +180,7 @@ def run_audit(base_url: str = "http://127.0.0.1:8090") -> dict[str, Any]:
             "golden_accuracy_pct": body["quality_gate"]["accuracy_pct"],
         },
         "room_alert_markdown": (
-            f"🚨 **[FINOPS BUDGET BREACH — #cost-bridge]** `@dev-agent`\n"
+            f"🚨 **[FINOPS BUDGET BREACH — #fin-garage]** `@dev-agent`\n"
             f"- **Endpoint:** `GET /orders/summary` (`checkout-service`)\n"
             f"- **Live HTTP Header:** `X-Unit-Cost-USD: ${headers['X-Unit-Cost-USD']}` "
             f"(Budget Cap: `${ep_policy['contract']['max_unit_cost_usd']:.4f}/req` — **9.66x over cap**)\n"
@@ -249,7 +249,7 @@ def run_verify(base_url: str = "http://127.0.0.1:8090") -> dict[str, Any]:
         if cost_passed and not quality_passed:
             verdict = "REFUSED_QUALITY_REGRESSION"
             room_message = (
-                f"🛑 **[COSTBRIDGE VERIFICATION REFUSED — QUALITY GATE BREACH]** `@dev-agent`\n"
+                f"🛑 **[FINGARAGE VERIFICATION REFUSED — QUALITY GATE BREACH]** `@dev-agent`\n"
                 f"- **Cost Check:** `X-Unit-Cost-USD: ${t['unit_cost_usd']:.6f}` (Passed `< ${contract['max_unit_cost_usd']:.4f}`)\n"
                 f"- **Quality Check:** `X-Golden-Accuracy-Pct: {q['accuracy_pct']:.1f}%` "
                 f"(**FAILED** minimum `{q_gate['min_golden_accuracy_pct']:.1f}%` SLA!)\n"
@@ -261,14 +261,14 @@ def run_verify(base_url: str = "http://127.0.0.1:8090") -> dict[str, Any]:
             verdict = "REFUSED_COST_BREACH"
             failed_cost = [k for k, ok in cost_checks.items() if not ok]
             room_message = (
-                f"🛑 **[COSTBRIDGE VERIFICATION REFUSED — COST CONTRACT BREACH]** `@dev-agent`\n"
+                f"🛑 **[FINGARAGE VERIFICATION REFUSED — COST CONTRACT BREACH]** `@dev-agent`\n"
                 f"- **Live Unit Cost:** `${t['unit_cost_usd']:.6f}/req` (Cap: `${contract['max_unit_cost_usd']:.4f}/req`)\n"
                 f"- **Failed Cost Clauses:** `{', '.join(failed_cost)}`"
             )
     else:
         verdict = "VERIFIED_PASS"
         room_message = (
-            f"✅ **[COSTBRIDGE VERIFICATION PASSED — SEAL #{receipt_seal}]** `@dev-agent`\n"
+            f"✅ **[FINGARAGE VERIFICATION PASSED — SEAL #{receipt_seal}]** `@dev-agent`\n"
             f"- **Live HTTP Header:** `X-Unit-Cost-USD: ${t['unit_cost_usd']:.6f}` (`-92.5%` vs baseline)\n"
             f"- **SQL Queries:** `{t['sql_queries']}` (`-98.0%`) | **LLM Tokens:** `{t['llm_tokens']}` cached (`-90.1%`) | **Logs:** `{t['log_kb']} KB` (`-99.1%`)\n"
             f"- **Golden Accuracy Gate:** `{q['accuracy_pct']:.1f}%` (`5/5` ground-truth facts preserved)\n"
@@ -373,14 +373,14 @@ def mint_receipt(base_url: str = "http://127.0.0.1:8090") -> dict[str, Any]:
     annual_saved = round(monthly_saved * 12.0, 2)
 
     receipt = {
-        "receipt_id": f"CB-2026-11-{seal.upper()}",
+        "receipt_id": f"FG-2026-11-{seal.upper()}",
         "receipt_seal": seal,
         "probe_sha256": latest_probe["probe_sha256"],
         "code_signature": latest_probe["code_signature"],
         "minted_at": datetime.now(timezone.utc).isoformat(),
         "minted_by_role": "cost-seal-holder",
         "minted_by_agent": "finops-agent",
-        "room": "#cost-bridge",
+        "room": "#fin-garage",
         "service": "checkout-service",
         "endpoint": "/orders/summary",
         "pricing_snapshot": "2026-11-01-public-v1",
@@ -409,7 +409,7 @@ def mint_receipt(base_url: str = "http://127.0.0.1:8090") -> dict[str, Any]:
     png_path = render_png_receipt(receipt)
 
     ledger_md = (
-        f"# FinOps Verified Savings Ledger (`#cost-bridge`)\n\n"
+        f"# FinOps Verified Savings Ledger (`#fin-garage`)\n\n"
         f"| Receipt ID | Endpoint | Baseline Cost | Verified Cost | Reduction | Golden Accuracy | Latency | Annual Run-Rate Saved | Seal |\n"
         f"| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
         f"| `{receipt['receipt_id']}` | `GET /orders/summary` | `${baseline['unit_cost_usd']:.6f}` | "
@@ -430,7 +430,7 @@ def mint_receipt(base_url: str = "http://127.0.0.1:8090") -> dict[str, Any]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="CostBridge FinOps Black-Box Verifier & Receipt Minter")
+    parser = argparse.ArgumentParser(description="FinGarage FinOps Black-Box Verifier & Receipt Minter")
     parser.add_argument(
         "command",
         choices=["audit", "verify", "mint-receipt"],

@@ -1,6 +1,6 @@
-policy_id: "COSTBRIDGE-FINOPS-2026-11"
+policy_id: "FINGARAGE-FINOPS-2026-11"
 owner_role: "cost-seal-holder"
-room_name: "#cost-bridge"
+room_name: "#fin-garage"
 monthly_request_volume: 300000
 
 endpoints:

@@ -20,7 +20,7 @@ def render_svg_receipt(receipt: dict[str, Any], out_path: Path | None = None) ->
     s = receipt["savings"]
     seal = receipt["receipt_seal"]
 
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 540" width="680" height="540" role="img" aria-label="CostBridge Verified FinOps Receipt Card">
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 540" width="680" height="540" role="img" aria-label="FinGarage Verified FinOps Receipt Card">
   <defs>
     <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0d1322"/>
@@ -37,7 +37,7 @@ def render_svg_receipt(receipt: dict[str, Any], out_path: Path | None = None) ->
   <rect x="8" y="8" width="664" height="8" rx="4" fill="url(#accentGrad)"/>
 
   <!-- Header -->
-  <text x="36" y="48" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="18" font-weight="700">COSTBRIDGE // VERIFIED FINOPS RECEIPT</text>
+  <text x="36" y="48" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="18" font-weight="700">FINGARAGE // VERIFIED FINOPS RECEIPT</text>
   <rect x="496" y="28" width="144" height="28" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
   <text x="568" y="47" text-anchor="middle" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">SEAL: #{seal}</text>
 
@@ -124,7 +124,7 @@ def render_png_receipt(receipt: dict[str, Any], out_path: Path | None = None) ->
     seal = receipt["receipt_seal"]
 
     lines = [
-        ("COSTBRIDGE // VERIFIED FINOPS RECEIPT", (16, 185, 129), 30),
+        ("FINGARAGE // VERIFIED FINOPS RECEIPT", (16, 185, 129), 30),
         (f"SEAL: #{seal}  |  ROOM: {receipt['room']}  |  ENDPOINT: {receipt['endpoint']}", (148, 163, 184), 56),
         ("-" * 78, (51, 65, 85), 80),
         ("ITEMIZED DRIVER           BEFORE (BREACH)         AFTER (VERIFIED)        DELTA", (100, 116, 139), 102),

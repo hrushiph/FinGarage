@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 540" width="680" height="540" role="img" aria-label="CostBridge Verified FinOps Receipt Card">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 540" width="680" height="540" role="img" aria-label="FinGarage Verified FinOps Receipt Card">
   <defs>
     <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0d1322"/>
@@ -15,11 +15,11 @@
   <rect x="8" y="8" width="664" height="8" rx="4" fill="url(#accentGrad)"/>
 
   <!-- Header -->
-  <text x="36" y="48" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="18" font-weight="700">COSTBRIDGE // VERIFIED FINOPS RECEIPT</text>
+  <text x="36" y="48" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="18" font-weight="700">FINGARAGE // VERIFIED FINOPS RECEIPT</text>
   <rect x="496" y="28" width="144" height="28" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
   <text x="568" y="47" text-anchor="middle" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">SEAL: #12c36d84</text>
 
-  <text x="36" y="74" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">Room: #cost-bridge   |   Endpoint: /orders/summary   |   Service: checkout-service</text>
+  <text x="36" y="74" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">Room: #fin-garage   |   Endpoint: /orders/summary   |   Service: checkout-service</text>
   <line x1="36" y1="90" x2="644" y2="90" stroke="#334155" stroke-dasharray="6,4" stroke-width="1.5"/>
 
   <!-- Table Column Headers -->

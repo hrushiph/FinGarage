@@ -1,5 +1,5 @@
 """
-1-Command End-to-End Replay of the CostBridge (#cost-bridge) Switch Room Workflow.
+1-Command End-to-End Replay of the FinGarage (#fin-garage) Switch Room Workflow.
 
 Executes all 4 demo beats across the isolated `./finops-hq` and `./checkout-service`
 directories over real black-box HTTP probes, demonstrating:
@@ -59,7 +59,7 @@ def _print_http_headers(title: str, headers: dict[str, str]) -> None:
 def main() -> None:
     url = "http://127.0.0.1:8094"
     print("=" * 78)
-    print("  COSTBRIDGE // #cost-bridge SWITCH ROOM END-TO-END REPLAY")
+    print("  FINGARAGE // #fin-garage SWITCH ROOM END-TO-END REPLAY")
     print("  Folder A: ./finops-hq (finops-agent)  <-->  Folder B: ./checkout-service (dev-agent)")
     print("=" * 78)
 
