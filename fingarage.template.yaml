@@ -28,6 +28,7 @@ params:
 agents:
   - name: finops-agent
     display_name: finops-agent
+    allow_existing: true
     description: Cloud & AI FinOps auditor. Verifies cost and quality by black-box probe and mints receipts.
     provider: "{provider}"
     location: "{location}"
@@ -57,6 +58,7 @@ agents:
          receipts/receipt_card.png to the room.
   - name: dev-agent
     display_name: dev-agent
+    allow_existing: true
     description: Backend engineer for checkout-service. Cannot self-certify cost compliance.
     provider: "{provider}"
     location: "{location}"
@@ -110,3 +112,4 @@ room:
 kickoff: |
   @finops-agent run `python3 probe.py audit`, then post the itemized budget-breach
   alert for GET /orders/summary and ask @dev-agent to fix it.
+
