@@ -1,0 +1,25 @@
+policy_id: "COSTBRIDGE-FINOPS-2026-11"
+owner_role: "cost-seal-holder"
+room_name: "#cost-bridge"
+monthly_request_volume: 300000
+
+endpoints:
+  "/orders/summary":
+    service: "checkout-service"
+    contract:
+      max_unit_cost_usd: 0.0050
+      max_monthly_cost_usd: 1500.00
+      max_sql_queries: 5
+      max_llm_tokens: 500
+      require_llm_cache_hit: true
+      max_log_bytes: 2048
+      max_latency_ms: 250.0
+    quality_gate:
+      min_golden_accuracy_pct: 95.0
+      required_checks:
+        - "order_volume_exact"
+        - "gross_revenue_exact"
+        - "enterprise_share_present"
+        - "refund_anomaly_detected"
+        - "payment_retry_detected"
+

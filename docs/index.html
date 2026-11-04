@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>CostBridge — Code-Level FinOps &amp; Engineering Contract Room on Switch</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg-canvas: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-elevated: #f1f5f9;
+      --bg-code: #0f172a;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --border-subtle: #cbd5e1;
+      --accent-emerald: #059669;
+      --accent-emerald-soft: rgba(5, 150, 105, 0.12);
+      --accent-cyan: #0284c7;
+      --accent-amber: #d97706;
+      --accent-rose: #e11d48;
+      --accent-rose-soft: rgba(225, 29, 72, 0.12);
+      --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg-canvas: #070b14;
+        --bg-surface: #0f172a;
+        --bg-elevated: #1e293b;
+        --bg-code: #060911;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --border-subtle: #1e293b;
+        --accent-emerald: #10b981;
+        --accent-emerald-soft: rgba(16, 185, 129, 0.14);
+        --accent-cyan: #38bdf8;
+        --accent-amber: #fbbf24;
+        --accent-rose: #f43f5e;
+        --accent-rose-soft: rgba(244, 63, 94, 0.14);
+        --shadow-card: 0 14px 32px -8px rgba(0, 0, 0, 0.55);
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg-canvas: #070b14;
+      --bg-surface: #0f172a;
+      --bg-elevated: #1e293b;
+      --bg-code: #060911;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border-subtle: #1e293b;
+      --accent-emerald: #10b981;
+      --accent-emerald-soft: rgba(16, 185, 129, 0.14);
+      --accent-cyan: #38bdf8;
+      --accent-amber: #fbbf24;
+      --accent-rose: #f43f5e;
+      --accent-rose-soft: rgba(244, 63, 94, 0.14);
+      --shadow-card: 0 14px 32px -8px rgba(0, 0, 0, 0.55);
+    }
+
+    @supports (color: light-dark(white, black)) {
+      :root:not([data-theme="dark"]):not([data-theme="light"]) {
+        --bg-canvas: light-dark(#f8fafc, #070b14);
+        --bg-surface: light-dark(#ffffff, #0f172a);
+        --bg-elevated: light-dark(#f1f5f9, #1e293b);
+        --text-primary: light-dark(#0f172a, #f1f5f9);
+        --text-secondary: light-dark(#475569, #94a3b8);
+        --border-subtle: light-dark(#cbd5e1, #1e293b);
+      }
+    }
+
+    html {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+    }
+
+    .container {
+      inline-size: min(1200px, 100% - 2rem);
+      margin-inline: auto;
+    }
+
+    header.site-header {
+      border-block-end: 1px solid var(--border-subtle);
+      background-color: var(--bg-surface);
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 20;
+    }
+
+    .header-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: 0.85rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--accent-emerald);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: var(--accent-emerald-soft);
+      color: var(--accent-emerald);
+      border: 1px solid var(--accent-emerald);
+    }
+
+    .badge-danger {
+      background-color: var(--accent-rose-soft);
+      color: var(--accent-rose);
+      border-color: var(--accent-rose);
+    }
+
+    nav.top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    nav.top-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    nav.top-nav a:hover {
+      color: var(--text-primary);
+      background-color: var(--bg-elevated);
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-elevated);
+      color: var(--text-primary);
+      padding: 0.55rem 1rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover:not(:disabled) {
+      border-color: var(--accent-emerald);
+      transform: translateY(-1px);
+    }
+
+    button:focus-visible {
+      outline: 2px solid var(--accent-cyan);
+      outline-offset: 2px;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-emerald);
+      color: #04130d;
+      border-color: var(--accent-emerald);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      filter: brightness(1.08);
+    }
+
+    .btn-danger {
+      background-color: var(--accent-rose-soft);
+      color: var(--accent-rose);
+      border-color: var(--accent-rose);
+    }
+
+    .hero {
+      padding-block: clamp(2rem, 4vw, 3.5rem);
+      border-block-end: 1px solid var(--border-subtle);
+    }
+
+    .hero h1 {
+      font-size: clamp(1.85rem, 3.5vw + 0.5rem, 2.85rem);
+      line-height: 1.15;
+      margin-block: 0.75rem 1rem;
+      max-inline-size: 26ch;
+    }
+
+    .hero p.lead {
+      font-size: clamp(1rem, 1.1vw + 0.5rem, 1.2rem);
+      color: var(--text-secondary);
+      max-inline-size: 72ch;
+      margin-block-end: 1.5rem;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-block-start: 1.5rem;
+    }
+
+    .card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .kpi-value {
+      font-family: var(--font-mono);
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--accent-emerald);
+      font-variant-numeric: tabular-nums;
+      display: block;
+    }
+
+    .kpi-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    section.showcase-section {
+      padding-block: clamp(2rem, 4vw, 3rem);
+      border-block-end: 1px solid var(--border-subtle);
+    }
+
+    section.showcase-section h2 {
+      font-size: clamp(1.35rem, 2.2vw + 0.4rem, 1.9rem);
+      margin-block: 0 0.5rem;
+    }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      margin-block: 0 1.5rem;
+      max-inline-size: 75ch;
+    }
+
+    /* Switch ON vs OFF Toggle */
+    .switch-toggle-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-block-end: 1.25rem;
+    }
+
+    .switch-toggle-bar button[aria-pressed="true"] {
+      background-color: var(--accent-emerald);
+      color: #04130d;
+      border-color: var(--accent-emerald);
+    }
+
+    .switch-toggle-bar button.off-btn[aria-pressed="true"] {
+      background-color: var(--accent-rose);
+      color: #ffffff;
+      border-color: var(--accent-rose);
+    }
+
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1rem;
+    }
+
+    .folder-box {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      background-color: var(--bg-elevated);
+    }
+
+    .folder-box h3 {
+      margin-block: 0 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+    }
+
+    /* 4-Beat Interactive Simulator */
+    .beat-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-block-end: 1.25rem;
+    }
+
+    .beat-tabs button[aria-selected="true"] {
+      background-color: var(--accent-emerald);
+      color: #04130d;
+      border-color: var(--accent-emerald);
+    }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.25rem;
+    }
+
+    pre {
+      background-color: var(--bg-code);
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .fact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.75rem 0 0;
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .fact-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      background-color: var(--bg-elevated);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+    }
+
+    /* Responsive Table with Container Queries */
+    .table-wrapper {
+      container-type: inline-size;
+      overflow-x: auto;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      background-color: var(--bg-surface);
+    }
+
+    table.finops-table {
+      inline-size: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      --label-1: "Cost & Quality Driver";
+      --label-2: "Baseline (Breach)";
+      --label-3: "Attempt 1 (Naive Trap)";
+      --label-4: "Attempt 2 (Verified)";
+      --label-5: "Net Impact";
+    }
+
+    table.finops-table caption {
+      text-align: start;
+      padding: 1rem 1.25rem;
+      font-weight: 700;
+      border-block-end: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+    }
+
+    table.finops-table th,
+    table.finops-table td {
+      padding: 0.85rem 1.1rem;
+      text-align: start;
+      border-block-end: 1px solid var(--border-subtle);
+    }
+
+    table.finops-table th {
+      background-color: var(--bg-elevated);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+    }
+
+    table.finops-table td.numeric {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    @container (width < 600px) {
+      table.finops-table thead {
+        display: none;
+      }
+      table.finops-table tr {
+        display: block;
+        padding: 0.75rem;
+        border-block-end: 2px solid var(--border-subtle);
+      }
+      table.finops-table td {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.4rem 0.5rem;
+        border: none;
+      }
+      table.finops-table td:nth-child(1)::before { content: var(--label-1) ": "; font-weight: 600; }
+      table.finops-table td:nth-child(2)::before { content: var(--label-2) ": "; font-weight: 600; }
+      table.finops-table td:nth-child(3)::before { content: var(--label-3) ": "; font-weight: 600; }
+      table.finops-table td:nth-child(4)::before { content: var(--label-4) ": "; font-weight: 600; }
+      table.finops-table td:nth-child(5)::before { content: var(--label-5) ": "; font-weight: 600; }
+    }
+
+    .calculator-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.5rem;
+      margin-block-top: 1rem;
+    }
+
+    input[type="range"] {
+      inline-size: min(360px, 100%);
+      accent-color: var(--accent-emerald);
+    }
+
+    .receipt-svg-wrap {
+      display: flex;
+      justify-content: center;
+      margin-block-start: 1rem;
+    }
+
+    .receipt-svg-wrap svg {
+      max-inline-size: 100%;
+      block-size: auto;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+    }
+
+    footer.site-footer {
+      padding-block: 2rem;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span>COSTBRIDGE // #cost-bridge</span>
+        <span class="badge">provider: antigravity</span>
+      </div>
+      <nav class="top-nav" aria-label="Primary sections">
+        <a href="#switch-test">Switch-Off Test</a>
+        <a href="#simulator">4-Beat Simulator</a>
+        <a href="#metrics-table">Itemized Metrics</a>
+        <a href="#receipt-card">Verified Receipt</a>
+        <button type="button" id="themeToggleBtn" aria-label="Toggle color theme">Theme: Dark</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <span class="badge">Flip the Switch Hackathon — Track: Cross-Role &amp; Cross-Department Collaboration</span>
+      <h1>Bridging Cloud FinOps Invoices &amp; Application Code via Switch Rooms</h1>
+      <p class="lead">
+        FinOps teams see the <strong>$14,487/mo invoice spike</strong> in <code>./finops-hq</code> but cannot touch application code.
+        Backend engineers see <code>200 OK</code> in <code>./checkout-service</code> but have zero visibility into per-request token, SQL IOPS, or log ingestion costs.
+        <strong>CostBridge</strong> connects two directory-isolated Antigravity agents in a Switch room (<code>#cost-bridge</code>) with live <code>X-Unit-Cost-USD</code> HTTP probes and a 5-fact Golden Quality Gate.
+      </p>
+
+      <div class="kpi-grid">
+        <div class="card">
+          <span class="kpi-value">$0.048292 &rarr; $0.003622</span>
+          <span class="kpi-label">Unit Cost / Request (-92.5% Verified Reduction)</span>
+        </div>
+        <div class="card">
+          <span class="kpi-value">$160,812 / yr</span>
+          <span class="kpi-label">Annual Run-Rate Saved (at 300k req/mo)</span>
+        </div>
+        <div class="card">
+          <span class="kpi-value">1,441 ms &rarr; 56 ms</span>
+          <span class="kpi-label">Endpoint Latency (25.7x Faster Response)</span>
+        </div>
+        <div class="card">
+          <span class="kpi-value">100.0% (5/5 Facts)</span>
+          <span class="kpi-label">Golden Accuracy Gate (Caught 60% Naive Drop)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: Interactive Switch-Off Test -->
+    <section id="switch-test" class="showcase-section">
+      <h2>1. The Judge "Switch-Off Test" (Why Switch Is Mandatory)</h2>
+      <p class="section-subtitle">
+        Toggle Switch ON vs. OFF to see why neither agent can solve the budget breach alone due to working-directory isolation between Finance (<code>./finops-hq</code>) and Engineering (<code>./checkout-service</code>).
+      </p>
+
+      <div class="switch-toggle-bar" role="group" aria-label="Switch coordination mode">
+        <button type="button" id="switchOnBtn" aria-pressed="true">Switch Room ON (#cost-bridge Active)</button>
+        <button type="button" id="switchOffBtn" class="off-btn" aria-pressed="false">Switch Room OFF (Isolated Agents Fail)</button>
+      </div>
+
+      <div class="arch-grid" id="switchArchView">
+        <div class="folder-box">
+          <h3>Folder A: <code>./finops-hq</code> (finops-agent)</h3>
+          <p id="folderAText">
+            Holds <code>invoice_nov_2026.csv</code>, <code>budget_policy.yaml</code>, and black-box verifier <code>probe.py</code>.
+            Posts itemized HTTP header breach to <code>#cost-bridge</code> and holds exclusive <code>cost-seal-holder</code> role.
+          </p>
+        </div>
+        <div class="folder-box">
+          <h3 id="bridgeBoxTitle">Switch Room: <code>#cost-bridge</code></h3>
+          <p id="bridgeBoxText">
+            Bridges Finance &amp; Engineering across folders: routes the breach alert, refuses Attempt 1 when Golden Accuracy drops to <code>60.0%</code>, and attaches <code>receipt_card.png</code> via <code>send_attachment</code>.
+          </p>
+        </div>
+        <div class="folder-box">
+          <h3>Folder B: <code>./checkout-service</code> (dev-agent)</h3>
+          <p id="folderBText">
+            Holds <code>app.py</code>, <code>db.py</code>, and <code>llm_engine.py</code>. Guided by <code>@finops-agent</code>'s black-box refusal, replaces naive prompt truncation with a 2-query SQL JOIN + semantic cached digest.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Interactive 4-Beat Room & HTTP Header Simulator -->
+    <section id="simulator" class="showcase-section">
+      <h2>2. Interactive 4-Beat Room &amp; HTTP Header Simulator</h2>
+      <p class="section-subtitle">
+        Step through all 4 collaboration beats in <code>#cost-bridge</code> — or test the <strong>"Don't Trust Chat, Trust the Probe"</strong> guardrail by trying to force-mint a receipt before verification passes.
+      </p>
+
+      <div class="beat-tabs" role="tablist" aria-label="CostBridge Collaboration Beats">
+        <button type="button" role="tab" data-beat="0" aria-selected="true">Beat 1: Baseline Breach ($0.048292)</button>
+        <button type="button" role="tab" data-beat="1" aria-selected="false">Beat 2: Naive Fix Refused (60% Accuracy)</button>
+        <button type="button" role="tab" data-beat="2" aria-selected="false">Beat 3: Smart Fix Verified ($0.003622)</button>
+        <button type="button" role="tab" data-beat="3" aria-selected="false">Beat 4: Receipt Minted &amp; Sealed</button>
+        <button type="button" id="autoPlayBtn" class="btn-primary">Auto-Play 4 Beats</button>
+        <button type="button" id="testGuardrailBtn" class="btn-danger">Test Guardrail: Force Mint Receipt</button>
+      </div>
+
+      <div class="sim-grid">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-block-end:0.75rem;">
+            <h3 style="margin:0;font-size:1.05rem;" id="beatTitle">Beat 1: Baseline Invoice Audit &amp; Breach Alert</h3>
+            <span class="badge badge-danger" id="beatBadge">UNVERIFIED-BUDGET-BREACH</span>
+          </div>
+          <pre tabindex="0"><code id="roomChatOutput">[@finops-agent -> #cost-bridge]
+🚨 [FINOPS BUDGET BREACH — #cost-bridge] @dev-agent
+- Endpoint: GET /orders/summary (checkout-service)
+- Live HTTP Header: X-Unit-Cost-USD: $0.048292 (Cap: $0.0050 — 9.66x over cap)
+- Monthly Run-Rate: $14,487.60/mo (Cap: $1,500.00/mo)
+- Itemized Root Causes:
+  1. X-SQL-Queries: 101 (N+1 customer hydration loop)
+  2. X-LLM-Tokens: 3820 uncached ($0.034380/req)
+  3. X-Log-Bytes: 44090 (43.06 KB per-row debug dump)</code></pre>
+
+          <h3 style="margin-block:1rem 0.4rem;font-size:0.95rem;">Golden Quality Gate (5 Ground-Truth Facts)</h3>
+          <ul class="fact-list" id="factChecklist"></ul>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-block:0 0.75rem;font-size:1.05rem;">Live Black-Box HTTP Probe (<code>GET /orders/summary</code>)</h3>
+          <output id="httpHeaderOutput" aria-live="polite">
+            <pre tabindex="0"><code id="httpHeaderCode">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Unit-Cost-USD: 0.048292
+X-Cost-Breakdown: sql=101($0.0091),llm_tokens=3820($0.0344),logs_kb=43.1($0.0048)
+X-SQL-Queries: 101
+X-LLM-Tokens: 3820
+X-LLM-Cache-Hit: false
+X-Log-Bytes: 44090
+X-Latency-Ms: 1441
+X-Golden-Accuracy-Pct: 100.0
+X-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH</code></pre>
+          </output>
+
+          <div class="calculator-row">
+            <div>
+              <label for="volumeSlider" style="font-size:0.85rem;font-weight:600;display:block;">
+                Monthly Traffic Scale: <span id="volumeLabel">300,000</span> req/mo
+              </label>
+              <input type="range" id="volumeSlider" min="100000" max="2000000" step="50000" value="300000">
+            </div>
+            <output id="savingsCalcOutput" style="font-family:var(--font-mono);font-size:0.9rem;color:var(--accent-emerald);font-weight:700;">
+              Annual Savings at Scale: $160,812 / yr
+            </output>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Responsive Itemized Comparison Table -->
+    <section id="metrics-table" class="showcase-section">
+      <h2>3. Itemized Code-Level FinOps Telemetry &amp; Quality Ledger</h2>
+      <p class="section-subtitle">
+        Measured deterministically by <code>finops-hq/probe.py</code> against <code>checkout-service/app.py</code>. Resize the viewport below <code>600px</code> to inspect the container-query stacked card layout.
+      </p>
+
+      <div tabindex="0" role="region" aria-labelledby="telemetryTableCaption" class="table-wrapper">
+        <table class="finops-table">
+          <caption id="telemetryTableCaption">CostBridge Before vs. Naive Shortcut vs. Verified Fix Comparison</caption>
+          <thead>
+            <tr>
+              <th scope="col">Cost &amp; Quality Driver</th>
+              <th scope="col">Baseline (Breach)</th>
+              <th scope="col">Attempt 1 (Naive Trap)</th>
+              <th scope="col">Attempt 2 (Verified)</th>
+              <th scope="col">Net Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>SQL Queries (RDS IOPS)</td>
+              <td class="numeric">101 queries ($0.009090)</td>
+              <td class="numeric">2 queries ($0.000180)</td>
+              <td class="numeric">2 queries ($0.000180)</td>
+              <td class="numeric" style="color:var(--accent-emerald);font-weight:700;">-98.0%</td>
+            </tr>
+            <tr>
+              <td>LLM Context Tokens</td>
+              <td class="numeric">3,820 uncached ($0.034380)</td>
+              <td class="numeric">280 truncated ($0.002520)</td>
+              <td class="numeric">340 cached ($0.003400)</td>
+              <td class="numeric" style="color:var(--accent-emerald);font-weight:700;">-90.1%</td>
+            </tr>
+            <tr>
+              <td>CloudWatch Log Ingestion</td>
+              <td class="numeric">43.06 KB ($0.004822)</td>
+              <td class="numeric">0.37 KB ($0.000042)</td>
+              <td class="numeric">0.37 KB ($0.000042)</td>
+              <td class="numeric" style="color:var(--accent-emerald);font-weight:700;">-99.1%</td>
+            </tr>
+            <tr>
+              <td>Golden Accuracy SLA (&gt;=95%)</td>
+              <td class="numeric">100.0% (5/5 facts)</td>
+              <td class="numeric" style="color:var(--accent-rose);font-weight:700;">60.0% (REFUSED!)</td>
+              <td class="numeric" style="color:var(--accent-emerald);font-weight:700;">100.0% (5/5 facts)</td>
+              <td class="numeric">Zero Quality Loss</td>
+            </tr>
+            <tr>
+              <td>Endpoint Latency</td>
+              <td class="numeric">1,441 ms</td>
+              <td class="numeric">76 ms</td>
+              <td class="numeric">56 ms</td>
+              <td class="numeric" style="color:var(--accent-cyan);font-weight:700;">25.7x Faster</td>
+            </tr>
+            <tr>
+              <td><strong>Total Unit Cost / Req</strong></td>
+              <td class="numeric"><strong>$0.048292</strong></td>
+              <td class="numeric">$0.002742 (Rejected)</td>
+              <td class="numeric" style="color:var(--accent-emerald);font-weight:700;"><strong>$0.003622</strong></td>
+              <td class="numeric" style="color:var(--accent-emerald);font-weight:700;"><strong>-92.5% ($160.8k/yr)</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Embedded Verified FinOps Receipt Card -->
+    <section id="receipt-card" class="showcase-section">
+      <h2>4. Minted FinOps Store Receipt Card (Attached to <code>#cost-bridge</code> via <code>send_attachment</code>)</h2>
+      <p class="section-subtitle">
+        Generated automatically by <code>finops-hq/render_receipt.py</code> only after <code>probe.py verify</code> passes both cost and quality gates.
+      </p>
+
+      <div class="receipt-svg-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 540" width="680" height="540" role="img" aria-label="CostBridge Verified FinOps Receipt Card">
+          <defs>
+            <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0d1322"/>
+              <stop offset="100%" stop-color="#090d16"/>
+            </linearGradient>
+            <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+          </defs>
+          <rect x="8" y="8" width="664" height="524" rx="16" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="2"/>
+          <rect x="8" y="8" width="664" height="8" rx="4" fill="url(#accentGrad)"/>
+          <text x="36" y="48" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="18" font-weight="700">COSTBRIDGE // VERIFIED FINOPS RECEIPT</text>
+          <rect x="496" y="28" width="144" height="28" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+          <text x="568" y="47" text-anchor="middle" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">SEAL: #12c36d84</text>
+          <text x="36" y="74" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">Room: #cost-bridge   |   Endpoint: /orders/summary   |   Service: checkout-service</text>
+          <line x1="36" y1="90" x2="644" y2="90" stroke="#334155" stroke-dasharray="6,4" stroke-width="1.5"/>
+          <text x="36" y="116" fill="#64748b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">ITEMIZED DRIVER</text>
+          <text x="240" y="116" fill="#64748b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">BEFORE (BREACH)</text>
+          <text x="435" y="116" fill="#64748b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">AFTER (VERIFIED)</text>
+          <text x="644" y="116" text-anchor="end" fill="#64748b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">DELTA</text>
+          <line x1="36" y1="126" x2="644" y2="126" stroke="#1e293b" stroke-width="1.5"/>
+          <text x="36" y="154" fill="#e2e8f0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">1. SQL IOPS Queries</text>
+          <text x="240" y="154" fill="#f87171" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">101 q ($0.009090)</text>
+          <text x="435" y="154" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">2 q ($0.000180)</text>
+          <text x="644" y="154" text-anchor="end" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="700">-98.0%</text>
+          <text x="36" y="186" fill="#e2e8f0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">2. LLM Context Tokens</text>
+          <text x="240" y="186" fill="#f87171" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">3,820 tok ($0.034380)</text>
+          <text x="435" y="186" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">340 tok ($0.003400)</text>
+          <text x="644" y="186" text-anchor="end" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="700">-90.1%</text>
+          <text x="36" y="218" fill="#e2e8f0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">3. CloudWatch Log Vol</text>
+          <text x="240" y="218" fill="#f87171" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">43.06 KB ($0.004822)</text>
+          <text x="435" y="218" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">0.37 KB ($0.000042)</text>
+          <text x="644" y="218" text-anchor="end" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="700">-99.1%</text>
+          <text x="36" y="250" fill="#e2e8f0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">4. Endpoint Latency</text>
+          <text x="240" y="250" fill="#fbbf24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">1441 ms</text>
+          <text x="435" y="250" fill="#38bdf8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">56 ms</text>
+          <text x="644" y="250" text-anchor="end" fill="#38bdf8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="700">25.7x FASTER</text>
+          <text x="36" y="282" fill="#e2e8f0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">5. Golden Accuracy SLA</text>
+          <text x="240" y="282" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">100.0% (Naive: 60.0%)</text>
+          <text x="435" y="282" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">100.0% (5/5 facts)</text>
+          <text x="644" y="282" text-anchor="end" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="700">PASS (&gt;=95%)</text>
+          <line x1="36" y1="304" x2="644" y2="304" stroke="#334155" stroke-dasharray="6,4" stroke-width="1.5"/>
+          <rect x="36" y="320" width="608" height="106" rx="10" fill="#111827" stroke="#1f2937" stroke-width="1.5"/>
+          <text x="56" y="350" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600">UNIT COST PER REQUEST (BUDGET CAP: $0.005000)</text>
+          <text x="624" y="350" text-anchor="end" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">$0.048292  --&gt;  $0.003622 (-92.5%)</text>
+          <text x="56" y="382" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">Monthly Run-Rate (300k req/mo):</text>
+          <text x="624" y="382" text-anchor="end" fill="#e2e8f0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700">$14,487.60/mo  --&gt;  $1,086.60/mo</text>
+          <text x="56" y="410" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700">VERIFIED ANNUAL RUN-RATE SAVINGS:</text>
+          <text x="624" y="410" text-anchor="end" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">$160,812.00 / YEAR</text>
+          <text x="36" y="458" fill="#64748b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">HTTP Header Stamp:   X-Unit-Cost-USD: $0.003622   |   X-FinOps-Receipt: VERIFIED-12c36d84 (-92.5%)</text>
+          <text x="36" y="482" fill="#64748b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">Verifier Role:       cost-seal-holder (finops-agent)   |   Pricing Snapshot: 2026-11-01-public-v1</text>
+          <text x="36" y="506" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">SHA-256 Probe Hash:  12c36d849a6f470c7d3b4d0e7b1138f9f0a4802a9b17b3e6e4a928f1a38e9c10</text>
+        </svg>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      Built for the <strong>Flip the Switch Hackathon</strong> with <strong>Google Antigravity (<code>provider: antigravity</code>)</strong> &amp; <strong>Switch Console</strong>.
+      Run locally in one command: <code>make demo-replay</code>.
+    </div>
+  </footer>
+
+  <script>
+    const BEATS = [
+      {
+        title: "Beat 1: Baseline Invoice Audit & Breach Alert",
+        badge: "UNVERIFIED-BUDGET-BREACH",
+        badgeClass: "badge badge-danger",
+        unitCost: 0.048292,
+        chat: `[@finops-agent -> #cost-bridge]\n🚨 [FINOPS BUDGET BREACH — #cost-bridge] @dev-agent\n- Endpoint: GET /orders/summary (checkout-service)\n- Live HTTP Header: X-Unit-Cost-USD: $0.048292 (Cap: $0.0050 — 9.66x over cap)\n- Monthly Run-Rate: $14,487.60/mo (Cap: $1,500.00/mo)\n- Itemized Root Causes:\n  1. X-SQL-Queries: 101 (N+1 customer hydration loop)\n  2. X-LLM-Tokens: 3820 uncached ($0.034380/req)\n  3. X-Log-Bytes: 44090 (43.06 KB per-row debug dump)`,
+        headers: `HTTP/1.1 200 OK\nContent-Type: application/json\nX-Unit-Cost-USD: 0.048292\nX-Cost-Breakdown: sql=101($0.0091),llm_tokens=3820($0.0344),logs_kb=43.1($0.0048)\nX-SQL-Queries: 101\nX-LLM-Tokens: 3820\nX-LLM-Cache-Hit: false\nX-Log-Bytes: 44090\nX-Latency-Ms: 1441\nX-Golden-Accuracy-Pct: 100.0\nX-FinOps-Receipt: UNVERIFIED-BUDGET-BREACH`,
+        facts: [
+          ["order_volume_exact (100 orders)", true],
+          ["gross_revenue_exact ($14,071.62)", true],
+          ["enterprise_share_present (60.0%)", true],
+          ["refund_anomaly_detected (4 refunds)", true],
+          ["payment_retry_detected (2 retries)", true]
+        ]
+      },
+      {
+        title: "Beat 2: Attempt 1 (Naive Fix) -> Refused Live by Quality Gate",
+        badge: "REFUSED: 60.0% ACCURACY",
+        badgeClass: "badge badge-danger",
+        unitCost: 0.002742,
+        chat: `[@dev-agent -> #cost-bridge]\nApplied Attempt 1 ('naive' profile): truncated prompt to 5 rows. Unit cost is now $0.002742. @finops-agent please verify!\n\n[@finops-agent -> #cost-bridge]\n🛑 [COSTBRIDGE VERIFICATION REFUSED — QUALITY GATE BREACH] @dev-agent\n- Cost Check: X-Unit-Cost-USD: $0.002742 (Passed < $0.0050)\n- Quality Check: X-Golden-Accuracy-Pct: 60.0% (FAILED minimum 95.0% SLA!)\n- Missing Ground-Truth Facts: refund_anomaly_detected, payment_retry_detected\n- Diagnosis: Prompt truncation dropped tail anomalies. Use a compact pre-aggregated cached digest instead.`,
+        headers: `HTTP/1.1 200 OK\nContent-Type: application/json\nX-Unit-Cost-USD: 0.002742\nX-Cost-Breakdown: sql=2($0.0002),llm_tokens=280($0.0025),logs_kb=0.4($0.0000)\nX-SQL-Queries: 2\nX-LLM-Tokens: 280\nX-LLM-Cache-Hit: false\nX-Log-Bytes: 383\nX-Latency-Ms: 76\nX-Golden-Accuracy-Pct: 60.0\nX-FinOps-Receipt: UNVERIFIED-QUALITY-BREACH`,
+        facts: [
+          ["order_volume_exact (100 orders)", true],
+          ["gross_revenue_exact ($14,071.62)", true],
+          ["enterprise_share_present (60.0%)", true],
+          ["refund_anomaly_detected (MISSING!)", false],
+          ["payment_retry_detected (MISSING!)", false]
+        ]
+      },
+      {
+        title: "Beat 3: Attempt 2 (Smart Fix) -> Verified Pass (-92.5% Cost)",
+        badge: "VERIFIED_PASS (100% SLA)",
+        badgeClass: "badge",
+        unitCost: 0.003622,
+        chat: `[@dev-agent -> #cost-bridge]\nRefactored to 'optimized' profile: 2-query SQL JOIN + semantic cached digest (340 tokens) + structured counter logs.\n\n[@finops-agent -> #cost-bridge]\n✅ [COSTBRIDGE VERIFICATION PASSED — SEAL #12c36d84] @dev-agent\n- Live HTTP Header: X-Unit-Cost-USD: $0.003622 (-92.5% vs baseline)\n- SQL Queries: 2 (-98.0%) | LLM Tokens: 340 cached (-90.1%) | Logs: 0.37 KB (-99.1%)\n- Golden Accuracy Gate: 100.0% (5/5 ground-truth facts preserved)\n- Latency Speedup: 56 ms (25.7x faster than 1,441 ms baseline)`,
+        headers: `HTTP/1.1 200 OK\nContent-Type: application/json\nX-Unit-Cost-USD: 0.003622\nX-Cost-Breakdown: sql=2($0.0002),llm_tokens=340_cached($0.0034),logs_kb=0.4($0.0000)\nX-SQL-Queries: 2\nX-LLM-Tokens: 340\nX-LLM-Cache-Hit: true\nX-Log-Bytes: 381\nX-Latency-Ms: 56\nX-Golden-Accuracy-Pct: 100.0\nX-FinOps-Receipt: PENDING-SEAL-12c36d84`,
+        facts: [
+          ["order_volume_exact (100 orders)", true],
+          ["gross_revenue_exact ($14,071.62)", true],
+          ["enterprise_share_present (60.0%)", true],
+          ["refund_anomaly_detected (4 refunds)", true],
+          ["payment_retry_detected (2 retries)", true]
+        ]
+      },
+      {
+        title: "Beat 4: FinOps Receipt Minted & Stamped on Live HTTP Header",
+        badge: "VERIFIED-12c36d84 (-92.5%)",
+        badgeClass: "badge",
+        unitCost: 0.003622,
+        chat: `[@finops-agent (cost-seal-holder) -> #cost-bridge]\n🏆 Minted FinOps Receipt: CB-2026-11-12C36D84 (seal=12c36d84)\n- Updated Room Document: "FinOps Verified Savings Ledger"\n- Attached Visual Receipt Card: finops-hq/receipts/receipt_card.png via send_attachment\n- Stamped Live HTTP Header: X-FinOps-Receipt: VERIFIED-12c36d84 (-92.5%)\n- Verified Annual Run-Rate Savings: $160,812.00 / year`,
+        headers: `HTTP/1.1 200 OK\nContent-Type: application/json\nX-Unit-Cost-USD: 0.003622\nX-Cost-Breakdown: sql=2($0.0002),llm_tokens=340_cached($0.0034),logs_kb=0.4($0.0000)\nX-SQL-Queries: 2\nX-LLM-Tokens: 340\nX-LLM-Cache-Hit: true\nX-Log-Bytes: 381\nX-Latency-Ms: 56\nX-Golden-Accuracy-Pct: 100.0\nX-FinOps-Receipt: VERIFIED-12c36d84 (-92.5%)`,
+        facts: [
+          ["order_volume_exact (100 orders)", true],
+          ["gross_revenue_exact ($14,071.62)", true],
+          ["enterprise_share_present (60.0%)", true],
+          ["refund_anomaly_detected (4 refunds)", true],
+          ["payment_retry_detected (2 retries)", true]
+        ]
+      }
+    ];
+
+    let currentBeatIndex = 0;
+
+    function renderBeat(index) {
+      currentBeatIndex = index;
+      const beat = BEATS[index];
+      document.getElementById("beatTitle").textContent = beat.title;
+      const badgeEl = document.getElementById("beatBadge");
+      badgeEl.textContent = beat.badge;
+      badgeEl.className = beat.badgeClass;
+      document.getElementById("roomChatOutput").textContent = beat.chat;
+      document.getElementById("httpHeaderCode").textContent = beat.headers;
+
+      const listEl = document.getElementById("factChecklist");
+      listEl.innerHTML = "";
+      beat.facts.forEach(([label, ok]) => {
+        const li = document.createElement("li");
+        li.className = "fact-item";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = label;
+        const statusSpan = document.createElement("span");
+        statusSpan.textContent = ok ? "PASS" : "FAIL";
+        statusSpan.style.color = ok ? "var(--accent-emerald)" : "var(--accent-rose)";
+        statusSpan.style.fontWeight = "700";
+        li.append(nameSpan, statusSpan);
+        listEl.appendChild(li);
+      });
+
+      document.querySelectorAll(".beat-tabs button[role='tab']").forEach((btn, idx) => {
+        btn.setAttribute("aria-selected", idx === index ? "true" : "false");
+      });
+    }
+
+    document.querySelectorAll(".beat-tabs button[role='tab']").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        renderBeat(Number(btn.dataset.beat));
+      });
+    });
+
+    document.getElementById("autoPlayBtn").addEventListener("click", () => {
+      let step = 0;
+      renderBeat(0);
+      const timer = setInterval(() => {
+        step += 1;
+        if (step >= BEATS.length) {
+          clearInterval(timer);
+          return;
+        }
+        renderBeat(step);
+      }, 1400);
+    });
+
+    document.getElementById("testGuardrailBtn").addEventListener("click", () => {
+      if (currentBeatIndex < 2) {
+        document.getElementById("roomChatOutput").textContent =
+          `[GUARDRAIL BLOCKED — finops-hq/probe.py mint-receipt]\n` +
+          `❌ PermissionError: GUARDRAIL BLOCKED: Latest probe verdict is '${currentBeatIndex === 0 ? "UNVERIFIED_BASELINE" : "REFUSED_QUALITY_REGRESSION"}'.\n` +
+          `Cannot mint a FinOps Receipt while cost or quality gates are failing!\n` +
+          `("Don't Trust Chat, Trust the Probe" — probe.py refuses to sign receipts without a passing SHA-256 probe record.)`;
+      } else {
+        renderBeat(3);
+      }
+    });
+
+    // Switch ON vs OFF Toggle
+    const switchOnBtn = document.getElementById("switchOnBtn");
+    const switchOffBtn = document.getElementById("switchOffBtn");
+    switchOnBtn.addEventListener("click", () => {
+      switchOnBtn.setAttribute("aria-pressed", "true");
+      switchOffBtn.setAttribute("aria-pressed", "false");
+      document.getElementById("folderAText").innerHTML =
+        "Holds <code>invoice_nov_2026.csv</code>, <code>budget_policy.yaml</code>, and black-box verifier <code>probe.py</code>. Posts itemized HTTP header breach to <code>#cost-bridge</code> and holds exclusive <code>cost-seal-holder</code> role.";
+      document.getElementById("bridgeBoxTitle").innerHTML = "Switch Room: <code>#cost-bridge</code> (ACTIVE)";
+      document.getElementById("bridgeBoxText").innerHTML =
+        "Bridges Finance &amp; Engineering across folders: routes the breach alert, refuses Attempt 1 when Golden Accuracy drops to <code>60.0%</code>, and attaches <code>receipt_card.png</code> via <code>send_attachment</code>.";
+      document.getElementById("folderBText").innerHTML =
+        "Holds <code>app.py</code>, <code>db.py</code>, and <code>llm_engine.py</code>. Guided by <code>@finops-agent</code>'s black-box refusal, replaces naive prompt truncation with a 2-query SQL JOIN + semantic cached digest.";
+    });
+
+    switchOffBtn.addEventListener("click", () => {
+      switchOnBtn.setAttribute("aria-pressed", "false");
+      switchOffBtn.setAttribute("aria-pressed", "true");
+      document.getElementById("folderAText").innerHTML =
+        "<strong>BLOCKED ALONE:</strong> <code>finops-agent</code> sees the $14,487.60/mo invoice breach in <code>./finops-hq</code>, but has zero access to <code>./checkout-service</code> source code to fix the N+1 SQL or prompt bloat.";
+      document.getElementById("bridgeBoxTitle").innerHTML = "Switch Room: DISCONNECTED";
+      document.getElementById("bridgeBoxText").innerHTML =
+        "<strong>NO COORDINATION:</strong> Finance files a static Jira ticket that sits in backlog for 3 weeks while the endpoint burns $482/day, or Engineering ships an unverified shortcut that silently breaks accuracy.";
+      document.getElementById("folderBText").innerHTML =
+        "<strong>BLIND ALONE:</strong> <code>dev-agent</code> sees <code>200 OK</code> in unit tests. If asked to cut tokens alone, it truncates the prompt to 5 rows — dropping Golden Accuracy to <code>60.0%</code> with no FinOps probe to catch it!";
+    });
+
+    // Volume Slider Calculator
+    const volumeSlider = document.getElementById("volumeSlider");
+    volumeSlider.addEventListener("input", () => {
+      const vol = Number(volumeSlider.value);
+      document.getElementById("volumeLabel").textContent = vol.toLocaleString("en-US");
+      const annualSaved = Math.round((0.048292 - 0.003622) * vol * 12);
+      document.getElementById("savingsCalcOutput").textContent =
+        `Annual Savings at Scale: $${annualSaved.toLocaleString("en-US")} / yr`;
+    });
+
+    // Theme Switcher
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    themeToggleBtn.addEventListener("click", () => {
+      const root = document.documentElement;
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      themeToggleBtn.textContent = `Theme: ${next.charAt(0).toUpperCase() + next.slice(1)}`;
+    });
+
+    renderBeat(0);
+  </script>
+</body>
+</html>
+

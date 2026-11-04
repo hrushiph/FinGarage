@@ -1,0 +1,51 @@
+{
+  "timestamp": "2026-11-04T05:30:32.195692+00:00",
+  "verified": true,
+  "verdict": "VERIFIED_PASS",
+  "probe_sha256": "12c36d843b82a6e15365d151f2e47225d673f2aee40b8d88463de261d186fce3",
+  "receipt_seal": "12c36d84",
+  "code_signature": "5662f74a",
+  "http_headers": {
+    "Server": "BaseHTTP/0.6 Python/3.9.10",
+    "Date": "Wed, 04 Nov 2026 05:30:32 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "1328",
+    "X-Unit-Cost-USD": "0.003622",
+    "X-Cost-Breakdown": "sql=2($0.0002),llm_tokens=340_cached($0.0034),logs_kb=0.4($0.0000)",
+    "X-SQL-Queries": "2",
+    "X-LLM-Tokens": "340",
+    "X-LLM-Cache-Hit": "true",
+    "X-Log-Bytes": "381",
+    "X-Latency-Ms": "56",
+    "X-Golden-Accuracy-Pct": "100.0",
+    "X-FinOps-Receipt": "PENDING-SEAL-5662f74a",
+    "X-Code-Signature": "5662f74a"
+  },
+  "cost_checks": {
+    "unit_cost_within_cap": true,
+    "sql_queries_within_cap": true,
+    "llm_tokens_within_cap": true,
+    "log_bytes_within_cap": true,
+    "latency_within_cap": true
+  },
+  "quality_checks": {
+    "golden_accuracy_above_sla": true,
+    "all_required_facts_present": true
+  },
+  "missing_facts": [],
+  "measured": {
+    "unit_cost_usd": 0.003622,
+    "monthly_cost_usd": 1086.6,
+    "sql_queries": 2,
+    "sql_cost_usd": 0.00018,
+    "llm_tokens": 340,
+    "llm_cache_hit": true,
+    "llm_cost_usd": 0.0034,
+    "log_bytes": 381,
+    "log_kb": 0.372,
+    "log_cost_usd": 4.2e-05,
+    "latency_ms": 56,
+    "golden_accuracy_pct": 100.0
+  },
+  "room_message_markdown": "\u2705 **[COSTBRIDGE VERIFICATION PASSED \u2014 SEAL #12c36d84]** `@dev-agent`\n- **Live HTTP Header:** `X-Unit-Cost-USD: $0.003622` (`-92.5%` vs baseline)\n- **SQL Queries:** `2` (`-98.0%`) | **LLM Tokens:** `340` cached (`-90.1%`) | **Logs:** `0.372 KB` (`-99.1%`)\n- **Golden Accuracy Gate:** `100.0%` (`5/5` ground-truth facts preserved)\n- **Latency Speedup:** `56 ms` (`25.7x` faster than `1,441 ms` baseline)"
+}

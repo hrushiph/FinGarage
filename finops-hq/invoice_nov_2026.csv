@@ -1,0 +1,7 @@
+billing_month,service_name,endpoint_tag,cost_category,usage_quantity,usage_unit,unit_rate_usd,monthly_requests,cost_per_request_usd,monthly_cost_usd,budget_cap_monthly_usd,status
+2026-11,checkout-service,/orders/summary,LLM_API_UNCACHED_TOKENS,1146000000,tokens,0.000009,300000,0.034380,10314.00,1050.00,BREACH
+2026-11,checkout-service,/orders/summary,RDS_PROVISIONED_IOPS_QUERIES,30300000,queries,0.000090,300000,0.009090,2727.00,150.00,BREACH
+2026-11,checkout-service,/orders/summary,CLOUDWATCH_LOG_INGESTION_KB,12915000,kilobytes,0.000112,300000,0.004822,1446.60,300.00,BREACH
+2026-11,auth-service,/oauth/token,RDS_PROVISIONED_IOPS_QUERIES,300000,queries,0.000090,300000,0.000090,27.00,100.00,OK
+2026-11,catalog-service,/items/list,CLOUDWATCH_LOG_INGESTION_KB,450000,kilobytes,0.000112,300000,0.000168,50.40,120.00,OK
+

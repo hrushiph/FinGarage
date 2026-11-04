@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.cache/
+.DS_Store
+checkout-service/checkout.db
+checkout-service/orders.db
+checkout-service/.runtime_mode.json
+

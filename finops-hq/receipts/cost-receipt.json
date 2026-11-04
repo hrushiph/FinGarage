@@ -1,0 +1,55 @@
+{
+  "receipt_id": "CB-2026-11-12C36D84",
+  "receipt_seal": "12c36d84",
+  "probe_sha256": "12c36d843b82a6e15365d151f2e47225d673f2aee40b8d88463de261d186fce3",
+  "code_signature": "5662f74a",
+  "minted_at": "2026-11-04T05:30:32.200393+00:00",
+  "minted_by_role": "cost-seal-holder",
+  "minted_by_agent": "finops-agent",
+  "room": "#cost-bridge",
+  "service": "checkout-service",
+  "endpoint": "/orders/summary",
+  "pricing_snapshot": "2026-11-01-public-v1",
+  "live_http_headers": {
+    "X-Unit-Cost-USD": "0.003622",
+    "X-Cost-Breakdown": "sql=2($0.0002),llm_tokens=340_cached($0.0034),logs_kb=0.4($0.0000)",
+    "X-FinOps-Receipt": "VERIFIED-12c36d84 (-92.5%)",
+    "X-Latency-Ms": "56",
+    "X-Golden-Accuracy-Pct": "100.0"
+  },
+  "baseline": {
+    "unit_cost_usd": 0.048292,
+    "monthly_cost_usd": 14487.6,
+    "sql_queries": 101,
+    "sql_cost_usd": 0.00909,
+    "llm_tokens": 3820,
+    "llm_cache_hit": false,
+    "llm_cost_usd": 0.03438,
+    "log_bytes": 44090,
+    "log_kb": 43.057,
+    "log_cost_usd": 0.004822,
+    "latency_ms": 1441,
+    "golden_accuracy_pct": 100.0
+  },
+  "verified": {
+    "unit_cost_usd": 0.003622,
+    "monthly_cost_usd": 1086.6,
+    "sql_queries": 2,
+    "sql_cost_usd": 0.00018,
+    "llm_tokens": 340,
+    "llm_cache_hit": true,
+    "llm_cost_usd": 0.0034,
+    "log_bytes": 381,
+    "log_kb": 0.372,
+    "log_cost_usd": 4.2e-05,
+    "latency_ms": 56,
+    "golden_accuracy_pct": 100.0
+  },
+  "savings": {
+    "unit_cost_saved_usd": 0.04467,
+    "reduction_pct": 92.5,
+    "monthly_savings_usd": 13401.0,
+    "annual_savings_usd": 160812.0,
+    "latency_speedup_x": 25.7
+  }
+}

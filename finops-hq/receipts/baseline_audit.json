@@ -1,0 +1,94 @@
+{
+  "timestamp": "2026-11-04T05:30:32.115941+00:00",
+  "endpoint": "/orders/summary",
+  "service": "checkout-service",
+  "invoice": {
+    "billing_month": "2026-11",
+    "service_name": "checkout-service",
+    "endpoint": "/orders/summary",
+    "monthly_requests": 300000,
+    "invoice_unit_cost_usd": 0.048292,
+    "invoice_monthly_cost_usd": 14487.6,
+    "budget_cap_monthly_usd": 1500.0,
+    "overage_Multiple": 9.66,
+    "line_items": [
+      {
+        "cost_category": "LLM_API_UNCACHED_TOKENS",
+        "usage_quantity": 1146000000,
+        "usage_unit": "tokens",
+        "cost_per_request_usd": 0.03438,
+        "monthly_cost_usd": 10314.0,
+        "budget_cap_monthly_usd": 1050.0,
+        "status": "BREACH"
+      },
+      {
+        "cost_category": "RDS_PROVISIONED_IOPS_QUERIES",
+        "usage_quantity": 30300000,
+        "usage_unit": "queries",
+        "cost_per_request_usd": 0.00909,
+        "monthly_cost_usd": 2727.0,
+        "budget_cap_monthly_usd": 150.0,
+        "status": "BREACH"
+      },
+      {
+        "cost_category": "CLOUDWATCH_LOG_INGESTION_KB",
+        "usage_quantity": 12915000,
+        "usage_unit": "kilobytes",
+        "cost_per_request_usd": 0.004822,
+        "monthly_cost_usd": 1446.6,
+        "budget_cap_monthly_usd": 300.0,
+        "status": "BREACH"
+      }
+    ]
+  },
+  "contract": {
+    "max_unit_cost_usd": 0.005,
+    "max_monthly_cost_usd": 1500.0,
+    "max_sql_queries": 5,
+    "max_llm_tokens": 500,
+    "require_llm_cache_hit": true,
+    "max_log_bytes": 2048,
+    "max_latency_ms": 250.0
+  },
+  "quality_gate": {
+    "min_golden_accuracy_pct": 95.0,
+    "required_checks": [
+      "order_volume_exact",
+      "gross_revenue_exact",
+      "enterprise_share_present",
+      "refund_anomaly_detected",
+      "payment_retry_detected"
+    ]
+  },
+  "http_headers": {
+    "Server": "BaseHTTP/0.6 Python/3.9.10",
+    "Date": "Wed, 04 Nov 2026 05:30:32 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "1321",
+    "X-Unit-Cost-USD": "0.048292",
+    "X-Cost-Breakdown": "sql=101($0.0091),llm_tokens=3820($0.0344),logs_kb=43.1($0.0048)",
+    "X-SQL-Queries": "101",
+    "X-LLM-Tokens": "3820",
+    "X-LLM-Cache-Hit": "false",
+    "X-Log-Bytes": "44090",
+    "X-Latency-Ms": "1441",
+    "X-Golden-Accuracy-Pct": "100.0",
+    "X-FinOps-Receipt": "UNVERIFIED-BUDGET-BREACH",
+    "X-Code-Signature": "c25660f9"
+  },
+  "measured": {
+    "unit_cost_usd": 0.048292,
+    "monthly_cost_usd": 14487.6,
+    "sql_queries": 101,
+    "sql_cost_usd": 0.00909,
+    "llm_tokens": 3820,
+    "llm_cache_hit": false,
+    "llm_cost_usd": 0.03438,
+    "log_bytes": 44090,
+    "log_kb": 43.057,
+    "log_cost_usd": 0.004822,
+    "latency_ms": 1441,
+    "golden_accuracy_pct": 100.0
+  },
+  "room_alert_markdown": "\ud83d\udea8 **[FINOPS BUDGET BREACH \u2014 #cost-bridge]** `@dev-agent`\n- **Endpoint:** `GET /orders/summary` (`checkout-service`)\n- **Live HTTP Header:** `X-Unit-Cost-USD: $0.048292` (Budget Cap: `$0.0050/req` \u2014 **9.66x over cap**)\n- **Monthly Run-Rate:** `$14,487.60/mo` (Cap: `$1,500.00/mo`)\n- **Itemized Root Causes from Black-Box Probe:**\n  1. `X-SQL-Queries: 101` (N+1 query loop; max allowed: `5`)\n  2. `X-LLM-Tokens: 3820` uncached (`$0.034380/req`; max allowed: `500` with semantic cache)\n  3. `X-Log-Bytes: 44090` (`43.057 KB` per-row debug dump; max allowed: `2048 B`)\n- **Action Required:** Refactor `/orders/summary` to `<= $0.0050/req` while keeping `X-Golden-Accuracy-Pct >= 95.0%`."
+}
