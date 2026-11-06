@@ -1,7 +1,7 @@
 # FinGarage — Code-Level FinOps & Engineering Contract Room on Switch
 
 > **Flip the Switch Hackathon Submission**
-> **Primary Track:** Cross-Role & Cross-Department Collaboration (Finance / FinOps $\leftrightarrow$ Backend Engineering)
+> **Primary Track:** Best Business Workflow (Cross-Role Finance / FinOps $\leftrightarrow$ Backend Engineering)
 > **Agent Provider:** Google Antigravity (`provider: antigravity`) via Switch Console (`fingarage.template.yaml`)
 > **Repository:** [https://github.com/hrushiph/FinGarage](https://github.com/hrushiph/FinGarage)
 > **Interactive Live Showcase:** [https://hrushiph.github.io/FinGarage/](https://hrushiph.github.io/FinGarage/) ([`docs/index.html`](docs/index.html)) | **Visual Receipt Card:** [`finops-hq/receipts/receipt_card.svg`](finops-hq/receipts/receipt_card.svg)
