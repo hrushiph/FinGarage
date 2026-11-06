@@ -78,15 +78,15 @@ def render_svg_receipt(receipt: dict[str, Any], out_path: Path | None = None) ->
   <!-- Row 5: Golden Accuracy Gate -->
   <text x="36" y="282" fill="#e2e8f0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">5. Golden Accuracy SLA</text>
   <text x="240" y="282" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">100.0% (Naive: 60.0%)</text>
-  <text x="435" y="282" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">{a["golden_accuracy_pct"]:.1f}% (5/5 facts)</text>
+  <text x="435" y="282" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">{a["golden_accuracy_pct"]:.1f}% (5/5)</text>
   <text x="644" y="282" text-anchor="end" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="700">PASS (&gt;=95%)</text>
 
   <line x1="36" y1="304" x2="644" y2="304" stroke="#334155" stroke-dasharray="6,4" stroke-width="1.5"/>
 
   <!-- Unit Cost Summary Box -->
   <rect x="36" y="320" width="608" height="106" rx="10" fill="#111827" stroke="#1f2937" stroke-width="1.5"/>
-  <text x="56" y="350" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600">UNIT COST PER REQUEST (BUDGET CAP: $0.005000)</text>
-  <text x="624" y="350" text-anchor="end" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">${b["unit_cost_usd"]:.6f}  --&gt;  ${a["unit_cost_usd"]:.6f} (-{s["reduction_pct"]:.1f}%)</text>
+  <text x="56" y="350" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600">UNIT COST / REQ (CAP $0.0050):</text>
+  <text x="624" y="350" text-anchor="end" fill="#10b981" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700">${b["unit_cost_usd"]:.6f} --&gt; ${a["unit_cost_usd"]:.6f} (-{s["reduction_pct"]:.1f}%)</text>
 
   <text x="56" y="382" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">Monthly Run-Rate (300k req/mo):</text>
   <text x="624" y="382" text-anchor="end" fill="#e2e8f0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700">${b["monthly_cost_usd"]:,.2f}/mo  --&gt;  ${a["monthly_cost_usd"]:,.2f}/mo</text>
